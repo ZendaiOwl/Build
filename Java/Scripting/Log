@@ -1,0 +1,103 @@
+#!/usr/bin/java --source 17
+/* @author Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com> */
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.ConsoleHandler;
+public class Log {
+  private static final String RESET = "\u001B[0m", BLACK = "\u001B[30m", RED = "\u001B[31m", RED_BRIGHT = "\033[0;91m", RED_BOLD_BRIGHT = "\033[1;91m", GREEN = "\u001B[32m", GREEN_BRIGHT = "\033[0;92m", GREEN_BOLD_BRIGHT = "\033[1;92m", YELLOW = "\u001B[33m", YELLOW_BRIGHT = "\033[0;93m", BLUE = "\u001B[34m", BLUE_BRIGHT = "\033[0;94m", PURPLE = "\u001B[35m", PURPLE_BRIGHT = "\033[0;95m", CYAN = "\u001B[36m", CYAN_BRIGHT = "\033[0;96m", GRAY = "\u001B[37m", WHITE = "\u001B[39m", WHITE_BRIGHT = "\033[0;97m";
+  private static final String DBG = (CYAN+"DEBUG"+RESET), CNF = (CYAN_BRIGHT+"CONFIG"+RESET), INF = (BLUE_BRIGHT+"INFO"+RESET), SCS = (GREEN_BRIGHT+"SUCCESS"+RESET), WAR = (YELLOW_BRIGHT+"WARNING"+RESET), ERR = (RED+"ERROR"+RESET), SVR = (RED_BRIGHT+"SEVERE"+RESET), CRIT = (RED_BOLD_BRIGHT+"CRITICAL"+RESET);
+  private static final int DBGVALUE = 100, INFVALUE = 150, CNFVALUE = 175, SCSVALUE = 200, ERRVALUE = 225, WARNVALUE = 250, SVRVALUE = 275,CRITVALUE = 300;
+  private static Logger log = Logger.getAnonymousLogger();
+  private static ConsoleHandler handler = new ConsoleHandler();
+  private static LogRecord logMessage;
+  private static Debug debug = new Debug(DBG, DBGVALUE);
+  private static Conf conf = new Conf(CNF, CNFVALUE);
+  private static Info info = new Info(INF, INFVALUE);
+  private static Success success = new Success(SCS, SCSVALUE);
+  private static Warn warn = new Warn(WAR, WARNVALUE);
+  private static Error error = new Error(ERR, ERRVALUE);
+  private static Severe severe = new Severe(SVR, SVRVALUE);
+  private static Crit crit = new Crit(CRIT, CRITVALUE);
+  private static final String err = "Usage: ./Log [LEVEL] [TEXT]\nLog LEVELS: DEBUG: -2, CONFIG: -1, INFO: 0, SUCCESS: 1, WARN: 2, ERROR: 3, SEVERE: 4, CRITICAL: 5";
+  private static final int DEBUG = -2, CONFIG = -1, INFO = 0, SUCCESS = 1, WARN = 2, ERROR = 3, SEVERE = 4, CRITICAL = 5;
+  public static void main(String[] args) {
+    log.setLevel(Level.ALL);
+    handler.setLevel(Level.ALL);
+    log.addHandler(handler);
+    int Lv = Integer.parseInt(args[0]);
+    String inText = "";
+    for (String s: Arrays.copyOfRange(args, SUCCESS, args.length)) { inText+=s + " "; }
+    String output = (WHITE+inText+RESET);
+    switch (Lv) {
+      case DEBUG:
+        Message(debug, output);
+        break;
+      case CONFIG:
+        Message(conf, output);
+        break;
+      case INFO:
+        Message(info, output);
+        break;
+      case SUCCESS:
+        Message(success, output);
+        break;
+      case WARN:
+        Message(warn, output);
+        break;
+      case ERROR:
+        Message(error, output);
+        break;
+      case SEVERE:
+        Message(severe, output);
+        break;
+      case CRITICAL:
+        Message(crit, output);
+        break;
+      default:
+        Message(error, err);
+        break;
+    }
+  }
+  private static void Message(Level lvl, String msg) { log.log(lvl, msg); }
+}
+public class Debug extends Level {
+  public Debug(String name, int value) {
+    super(name, value);
+  }
+}
+public class Conf extends Level {
+  public Conf(String name, int value) {
+    super(name, value);
+  }
+}
+public class Info extends Level {
+  public Info(String name, int value) {
+    super(name, value);
+  }
+}
+public class Success extends Level {
+  public Success(String name, int value) {
+    super(name, value);
+  }
+}
+public class Warn extends Level {
+  public Warn(String name, int value) {
+    super(name, value);
+  }
+}
+public class Error extends Level {
+  public Error(String name, int value) {
+    super(name, value);
+  }
+}
+public class Severe extends Level {
+  public Severe(String name, int value) {
+    super(name, value);
+  }
+}
+public class Crit extends Level {
+  public Crit(String name, int value) {
+    super(name, value);
+  }
+}

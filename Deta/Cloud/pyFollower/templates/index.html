@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" 
+        integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" />
+<title>Instagram Follower</title>
+</head>
+<body>
+<div class="columns">
+  <div class="column"></div>
+  <div class="column is-one-quarter">
+    <nav class="level">
+      <div class="level-item has-text-centered">
+        <div class="content">
+          <p>
+            <h1>
+              Instagram Follower
+            </h1>
+          </p>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="column"></div>
+</div>
+<div class="columns">
+	<div class="column"></div>
+	<div class="column is-one-third">
+    <div class="container">
+    <form class="box">
+    <div class="field">
+    	<label class="label">Username</label>
+    	<div class="control">
+    		<input id="username" class="input" type="text" placeholder="Instagram username" autocomplete="username" />
+    	</div>
+    </div>
+  	<div class="field">
+  		<label class="label">Password</label>
+  		<div class="control">
+    		<input id="password" class="input" type="password" placeholder="********" autocomplete="current-password" />
+  		</div>
+    </div>
+  	<div class="field">
+  		<label class="label">Post ID</label>
+  		<div class="controller">
+    		<input id="postID" class="input" type="text" placeholder="ex. CV57whdMkwL" />
+		</div>
+	</div>
+	<div class="buttons">
+		<button class="button is-link" onclick="followUsers(event);return false">Follow users</button>
+		<button class="button is-link" onclick="testing(event); return false" >Testing</button>
+	</div>
+</form>
+</div>
+</div>
+  <div class="column"></div>
+</div>
+<div class="columns">
+	<div class="column"></div>
+	<div class="column is-one-third">
+		<div class="box">
+			<p id="res"></p>
+		</div>
+	</div>
+	<div class="column"></div>
+</div>
+<footer></footer>
+<script type="text/javascript">
+async function followUsers(event) {
+    const username = document.querySelector('#username').value;
+    const password = document.querySelector('#password').value;
+    const postID = document.querySelector('#postID').value;
+    const p = document.createElement("p");
+    document.body.appendChild(p);
+    const min = 5
+    const max = 15
+    p.textContent += "Starting Instagram Follower.."
+    console.log("Starting Instagram Follower..");
+    p.textContent += "Sending POST request to retrieve user list"
+const response = await fetch('https://36s75f.deta.dev/userlist', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        username: username,
+        password: password,
+        postID: postID
+    })
+});
+  
+  p.textContent += "Retrieved user list"
+  
+  const data = await response.json();
+  
+  p.textContent += "Extracted user list"
+  
+  console.log(data);
+  console.log(data.usernames);
+  console.log(data.userlist);
+  
+  p.textContent += "Usernames: " + data.usernames
+  p.textContent += "User ID's: " + data.userlist
+  
+  p.textContent += "Start following users.."
+  
+  // generate random number between 5 - 15
+  const random = Math.floor(Math.random() * (max - min + 1) + min);
+  // multiply with a minute
+  const timer = (random * 60000);
+  
+  // t.ex.
+  data.userlist.forEach(userID => {
+  setTimeout(() => {
+    follow(p, username, password, userID)
+  }, timer) // 5 sek
+  });
+  event.preventDefault();
+}
+  
+async function follow(p, username, password, userID) {
+  p.textContent += "Sending POST request to follow a user"
+  const response = await fetch('https://36s75f.deta.dev/follow', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: username,
+    password: password,
+    userID: userID
+  })
+  })
+  p.textContent += "Waiting for response.."
+  const data = await response.json();
+  p.textContent += "Response received, JSON extracted."
+  console.log(data);
+  console.log(data.message);
+  p.textContent += data.message
+}
+  
+async function testing(event) {
+	const username = document.querySelector('#username').value;
+	const password = document.querySelector('#password').value;
+	const postID = document.querySelector('#postID').value;
+	const msg = {
+		method: 'POST',
+		headers: {
+			'Accept':'application/json',
+			'Content-Type':'application/json'
+		},
+		body: JSON.stringify({
+			key: 		username.toLowerCase(),
+			username:	username.toLowerCase(),
+			password:	password,
+			postID:		postID
+		})
+	};
+	const resJSON = await getData(msg);
+	const res_output = document.querySelector('#res');
+	res_output.textContent = "";
+	res_output.innerHTML += "Response data: " + JSON.stringify(resJSON) + "<br><br>";
+	res_output.innerHTML += "Key: " + resJSON.key + "<br>";
+	res_output.innerHTML += "Username: " + resJSON.username + "<br>";
+	res_output.innerHTML += "Password: " + resJSON.password + "<br>";
+	res_output.innerHTML += "Post ID: " + resJSON.postID + "<br>";
+//    testNest(res_output); 
+	event.preventDefault();
+}
+async function testNest(res_output) {
+    res_output.innerHTML += "From inside the nested function.";
+}
+async function getData(msg_body) {
+	const response = await fetch("https://gdaekv.deta.dev/data", msg_body);
+	const data = await response.json();
+	return data
+}
+</script>
+</body>
+</html>

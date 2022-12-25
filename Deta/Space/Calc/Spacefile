@@ -1,0 +1,9 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+app_name: "Calc"
+micros:
+  - name: editor
+    src: ./src/node
+    engine: nodejs16
+    run: "node index.js"
+    primary: true

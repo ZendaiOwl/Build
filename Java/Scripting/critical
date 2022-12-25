@@ -1,0 +1,39 @@
+#!/usr/bin/java --source 17
+/* @author Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com> */
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.LogRecord;
+import java.util.logging.ConsoleHandler;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+public class Log {
+  private static final String RESET = "\u001B[0m", RED_BOLD_BRIGHT = "\033[1;91m", CRIT = (RED_BOLD_BRIGHT+"CRITICAL"+RESET);
+  private static final int CRITVALUE = 300;
+  private static Logger log = Logger.getAnonymousLogger();
+  private static ConsoleHandler handler = new ConsoleHandler();
+  private static Crit crit = new Crit(CRIT, CRITVALUE); 
+  public static void main(String[] args) {
+    log.setLevel(crit);
+    handler.setLevel(crit);
+    log.addHandler(handler);
+    String output = "";
+    for (String s: args) { output+=s + " "; }
+    LogRecord logRecord = getRecord(crit, output);
+    Message(logRecord);
+    DateTimeFormatter dFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                                                 .withZone(ZoneId.systemDefault());
+    String date = dFormat.format(logRecord.getInstant());
+    String recordMessage = date+" "+logRecord.getLevel()+": "+logRecord.getMessage();
+    Print(recordMessage);
+  }
+  private static LogRecord getRecord(Level lvl, String msg) { return new LogRecord(lvl, msg); }
+  private static void Message(LogRecord msg) { log.log(msg); }
+  private static void Print(String text) { System.out.println(text); }
+}
+public class Crit extends Level {
+  public Crit(String name, int value) {
+    super(name, value);
+  }
+}

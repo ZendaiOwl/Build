@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+	<meta charset='UTF-8'>
+	<meta http-equiv="Content-Type" 
+		  content="text/html; charset=UTF-8">
+	<meta name="viewport" 
+		  content="width=device-width, initial-scale=1">
+	<!-- <meta name="keywords" content="Comma separated,words,and,tags,used to,search for the website">
+	<meta name="description" content="150 words or less">
+	<meta name="subject" content="">
+	<meta name="copyright" content="BSD 3-Clause License">
+	<meta name="category" content="">
+	<meta name="topic" content="">
+	<meta name="summary" content=""> -->
+	<title>PyInstaFollower</title>
+	<!-- <meta name="subtitle" content="">
+	<meta name="author" content="">
+	<meta name="designer" content="">
+	<meta name="owner" content="">
+	<meta name="reply-to" content="">
+	<meta name="identifier-URL" content="/"> -->
+	<meta name="robots" 
+		  content="noindex,nofollow"> <!-- TODO Change to 'index,follow' when website is ready -->
+	<meta name="AdsBot-Google" 
+		  content="noindex,nofollow">
+	<meta name="googlebot" 
+		  content="noindex,nofollow">
+	<meta name="googlebot-news" 
+		  content="noindex,nofollow"> 
+<link rel="preconnect" 
+	  href="https://api.fonts.coollabs.io" 
+	  crossorigin="anonymous">
+<link rel="preconnect" 
+	  href="https://api.fonts.coollabs.io" 
+	  crossorigin="anonymoous">
+<link href="https://api.fonts.coollabs.io/icon?family=Material+Icons" 
+	  rel="stylesheet">
+<link href="https://api.fonts.coollabs.io/css2?family=Roboto&display=swap" 
+	  rel="stylesheet">
+<link rel="stylesheet" 
+	  href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" 
+	  integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" 
+	  crossorigin="anonymous" 
+	  referrerpolicy="no-referrer">
+<style></style>
+<script type="text/javascript" src="some.js"></script> 
+</head>
+<body>
+<header>
+  <section class="hero is-medium is-info">
+  	<div class="hero-body has-text-centered">
+  	  <p class="title" style="font-family: Anonymous Pro;">
+  	  	Instagram Follower
+  	  </p>
+  	  <p class="subtitle" style="font-family: Red Hat Text;">
+  	    Under consideration
+  	  </p>
+  	</div>
+  </section>
+</header>
+<section class="section">
+<nav class="level">
+	<div class="container level-item">
+		<div class="box is-mobile is-4 is-one-quarter">
+		<form id="theForm" class="form" onSubmit="formSubmit(event);return false">
+			<div class="field">
+			  <label class="label">Username</label>
+			    <input id="username" class="input" type="username" autocomplete placeholder="Instagram username">
+			</div>
+			<div class="field">
+			  <label class="label">Password</label>
+			    <input id="password" class="input" type="password" autocomplete placeholder="************">
+			  </div>
+			<div class="field">
+			  <label class="label">Post ID</label>
+			  <div class="control">
+			    <input id="postID" class="input" type="text" placeholder="e.g CV57whdMkwL">
+			  </div>
+			</div>
+			<div class="field is-grouped">
+			  <div class="control">
+			    <button id="submitButton" class="button is-link">Submit</button>
+			  </div>
+			  <div class="control">
+			    <button id="cancelButton" class="button is-link is-light">Cancel</button>
+			  </div>
+			</div>
+			</form>
+		</div>
+	</div>
+</nav>
+</section>
+<section class="section">
+<nav class="level">
+	<div class="container level-item">
+		<div class="box is-4" id="res_box">
+			<pre id="res"></pre>
+		</div>
+	</div>
+</nav>
+</section>
+<footer></footer>
+</body>
+</html>
+

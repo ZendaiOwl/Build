@@ -1,0 +1,9 @@
+java.util.logging.Level defines the different levels of java logging.
+There are seven levels of logging in java.
+    SEVERE (highest)
+    WARNING
+    INFO
+    CONFIG
+    FINE
+    FINER
+    FINEST

@@ -1,0 +1,29 @@
+#!/usr/bin/java --source 17
+/* @author Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com> */
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.ConsoleHandler;
+public class Log {
+  public static final String RESET = "\u001B[0m", CYAN = "\u001B[36m", WHITE = "\u001B[39m";
+  private static final String DBG = (CYAN+"DEBUG"+RESET);
+  private static final int VALUE = 100;
+  private static Logger log = Logger.getAnonymousLogger();
+  private static ConsoleHandler handler = new ConsoleHandler();
+  private static Debug debug = new Debug(DBG, VALUE);
+  public static void main(String[] args) {
+    log.setLevel(debug);
+    handler.setLevel(debug);
+    log.addHandler(handler);
+    String txt = "";
+    for (String s: args) { txt+=s + " "; }
+    String output = (WHITE+txt+RESET);
+    Message(debug, output);
+  }
+  private static void Message(Level lvl, String msg) { log.log(lvl, msg); }
+}
+public class Debug extends Level {
+  public Debug(String name, int value) {
+    super(name, value);
+  }
+}

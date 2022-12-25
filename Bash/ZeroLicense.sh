@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# @author Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com>
+set -euf -o pipefail
+YEAR="$(date +%Y)"
+NAME="Victor-ray, S."
+EMAIL="<12261439+ZendaiOwl@users.noreply.github.com>"
+LICENSE="BSD Zero Clause License
+
+Copyright (c) $YEAR by $NAME $EMAIL
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE."
+printf '%s\n' "$LICENSE"
+set +euf -o pipefail
+exit 0

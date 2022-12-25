@@ -1,0 +1,7 @@
+#!/usr/bin/java --source 17
+public class ScriptJava {
+
+  public static void main(String[] args) {
+    
+  }
+}

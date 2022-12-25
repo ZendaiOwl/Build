@@ -1,0 +1,51 @@
+#!/usr/bin/java --source 17
+import java.text.DecimalFormat;
+public class CompoundInterest {
+  /** Calculates compound interest for an investment over time */
+  public static void main(String[] args) {
+    if (args.length < 4 || args.length > 4) {
+      System.out.println(
+        "Requires 4 arguments:\n" +
+        "\t1: Principal investment amount\n" +
+        "\t2: Interest rate percentile\n" +
+        "\t3: Compounding times per year\n" +
+        "\t4: Years in decimal form"
+      );
+    } else {
+      Double P = getPrincipalAmount(args);
+      Double R = getInterestRatePercentile(args);
+      Double r = R/100;
+      int n = getCompoundingPeriods(args);
+      Double t = getYears(args);
+      Double A = P * Math.pow((1 + r / n), n * t);
+      Double I = A-P;
+      DecimalFormat decimalFormat = new DecimalFormat("#.##");
+      decimalFormat.setGroupingUsed(true);
+      decimalFormat.setGroupingSize(3);
+      System.out.println(
+        "Principal amount: €" + decimalFormat.format(P) +
+        "\nInterest rate: " + R + "%" + " (" + r + ")" +
+        "\nCompounds p/year: " + n +
+        "\nYears: " + t +
+        "\nInterest: €" + decimalFormat.format(I) +
+        "\nAccrued total: €" + decimalFormat.format(A)
+      );
+    }
+  }
+  /** Returns the principal amount of the investment as type Double from cli args list */
+  private static double getPrincipalAmount(String[] args) {
+    return Double.parseDouble(args[0]);
+  }
+  /** Returns interest rate percentile as type Double from cli args list */
+  private static double getInterestRatePercentile(String[] args) {
+    return Double.parseDouble(args[1]);
+  }
+  /** Returns the compounding periods as type Integer from cli args list */
+  private static int getCompoundingPeriods(String[] args) {
+    return Integer.parseInt(args[2]);
+  }
+  /** Returns the number of years in decimal form as type Double from cli args list */
+  private static double getYears(String[] args) {
+    return Double.parseDouble(args[3]);
+  }
+}

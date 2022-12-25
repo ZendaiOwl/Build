@@ -1,0 +1,27 @@
+#!/usr/bin/java --source 17
+/* @author Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com> */
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.ConsoleHandler;
+public class Log {
+  private static final String RESET = "\u001B[0m", YELLOW_BRIGHT = "\033[0;93m", WARN = (YELLOW_BRIGHT+"WARNING"+RESET);
+  private static final int WARNVALUE = 150;
+  private static Warn warn = new Warn(WARN, WARNVALUE);
+  private static Logger log = Logger.getAnonymousLogger();
+  private static ConsoleHandler handler = new ConsoleHandler();
+  public static void main(String[] args) {
+    log.setLevel(warn);
+    handler.setLevel(warn);
+    log.addHandler(handler);
+    String output = "";
+    for (String s: args) { output+=s + " "; }
+    Message(warn, output);
+  }
+  private static void Message(Level lvl, String msg) { log.log(lvl, msg); }
+}
+public class Warn extends Level {
+  public Warn(String name, int value) {
+    super(name, value);
+  }
+}
