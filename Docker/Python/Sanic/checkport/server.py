@@ -46,6 +46,66 @@ async def check_ports(request):
       "443": port443
     })
 
+@app.get('/80')
+async def check_port_80(request):
+    headers = request.headers
+    clientIP = headers.get("Fly-Client-IP")
+    protocol = ("")
+    port80 = ("")
+    port443 = ("")
+    try:
+      validate = await validateIP(clientIP)
+      if validate == 0:
+        result = "valid"
+        if await getIPversion(clientIP) == 4:
+          protocol = "IPv4"
+          port80 = await checkIPv4(clientIP, 80)
+        else:
+          protocol = "IPv6"
+          port80 = await checkIPv6(clientIP, 80)
+      elif validate == 1:
+        result = "invalid"
+      else:
+        result = "error"
+    except:
+      result = "error"
+    return json({
+      "ip": clientIP,
+      "format": result,
+      "type": protocol,
+      "80": port80
+    })
+
+@app.get('/443')
+async def check_port_443(request):
+    headers = request.headers
+    clientIP = headers.get("Fly-Client-IP")
+    protocol = ("")
+    port80 = ("")
+    port443 = ("")
+    try:
+      validate = await validateIP(clientIP)
+      if validate == 0:
+        result = "valid"
+        if await getIPversion(clientIP) == 4:
+          protocol = "IPv4"
+          port443 = await checkIPv4(clientIP, 443)
+        else:
+          protocol = "IPv6"
+          port80 = await checkIPv6(clientIP, 443)
+      elif validate == 1:
+        result = "invalid"
+      else:
+        result = "error"
+    except:
+      result = "error"
+    return json({
+      "ip": clientIP,
+      "format": result,
+      "type": protocol,
+      "443": port443
+    })
+
 @app.get('/client')
 async def get_client_ip(request):
     try:
