@@ -1,4 +1,4 @@
-A repository for testing builds and buildscripts with GitHub workflow & actions as well as Docker images and whatnot else I can think of that I want to try out. It might evolve into something else in time, I'll see. 
+A repository for testing builds and buildscripts with GitHub workflow & actions as well as Docker images and whatnot else I can think of that I want to try out. It might evolve into something else in time, I'll see. ☆
 
 ☆ A [Gist][notes] with some of my random notes.
 
