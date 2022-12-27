@@ -1,28 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com>
 set -euo pipefail
-
-trap "exit $?" EXIT ERR SIGTERM SIGABRT
-
+trap 'exit $?' EXIT ERR SIGTERM SIGABRT
 function updateGitRepository {
-  local addir msg comsg gpg_key git_commit_args
-  local -r gpg_key_id="E2AC71651803A7F7"
+  local ADDIR MSG COMSG
+  local -r GPG_KEY_ID="E2AC71651803A7F7"
+  local -r GIT_COMMIT_ARGS="( --signoff --gpg-sign=$GPG_KEY_ID -m $COMSG )"
   if [[ "$#" -eq 1 ]] ; then
-  	addir=$(pwd)
-  	msg="$1"
+  	ADDIR="$PWD"
+  	MSG="$1"
   elif [[ "$#" -gt 1 ]] ; then
-  	addir="$1"
-  	msg="${@:2}"
+  	ADDIR="$1"
+  	MSG="${*:2}"
   fi
   (
-    comsg="࿓❯ ${msg}"
-    git add "${addir}"
-    git_commit_args=(--signoff --gpg-sign="${gpg_key_id}" -m "${comsg}")
-    readonly git_commit_args
-    git commit "${git_commit_args[@]}"
+    COMSG="࿓❯ $MSG"
+    git add "$ADDIR"
+    git commit "${GIT_COMMIT_ARGS[@]}"
     git push
   )
 }
-
 updateGitRepository "$@"
-
+set +euo pipefail
 exit 0
