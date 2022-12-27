@@ -1,0 +1,9 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+app_name: "FinTech"
+micros:
+  - name: node-app
+    src: ./src/node
+    engine: nodejs16
+    run: "node index.js"
+    primary: true

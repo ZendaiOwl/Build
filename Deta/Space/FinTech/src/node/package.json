@@ -1,0 +1,15 @@
+{
+  "name": "fintech",
+  "version": "1.0.0",
+  "description": "WiP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "0BSD",
+  "dependencies": {
+    "express": "^4.18.2",
+    "http": "^0.0.1-security"
+  }
+}

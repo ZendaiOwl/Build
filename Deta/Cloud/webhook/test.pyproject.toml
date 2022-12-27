@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=57.4.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "webhook_server"
+description = "A webhook server deployed on Deta.sh"
+readme = ""
+requires-python = ">=3.9.7"
+license = { text = "Zero-Clause BSD (0BSD)"}
+classifiers = [
+  "Framework :: Sanic",
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "sanic==20.12.3",
+  'importlib-metadata; python_version<"3.10"',
+  "aiofiles",
+  "certifi",
+  "h11",
+  "httpcore",
+  "httptools",
+  "idna",
+  "multidict",
+  "frc3986",
+  "sniffio",
+  "ujson",
+  "uvloop",
+  "websockets",
+]
+dynamic = ["version"]
