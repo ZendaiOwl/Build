@@ -215,13 +215,15 @@ set -euo pipefail
 # Bright Magenta	95					105
 # Bright Cyan		96					106
 # Bright White		97					107
+#
 # 256-bit colours
 # B=$(tput setaf 39)
 # Y=$(tput setaf 228)
-G=$(tput setaf 48)
+# G=$(tput setaf 48)
 # O=$(tput setaf 208)
-W=$(tput setaf 15)
-Z=$(tput sgr0)
+# W=$(tput setaf 15)
+# Z=$(tput sgr0)
+#
 # 16-bit colours
 # B='\e[34m'
 # G='\e[32m'
@@ -229,18 +231,13 @@ Z=$(tput sgr0)
 # W='\e[37m'
 # D='\e[39m'
 # Z='\e[0m'
-NAME=$1
-TEXT=$2
-PFX="${G}INFO${Z}:"
-# PFX="${NAME}"
-
-# colour() {
-	# printf '%-7.12s %-12.36s\n' "${PFX}" "${@}"
-# }
+#
 colour() {
-	printf '%-0.48s\n' "${PFX} ${@}"
+  local -r B='\e[34m' Z='\e[0m' PFX="INFO" COLOURS=("'\e[34m' = Blue" "'\e[32m' = Green" "'\e[33m' = Orange" "'\e[37m' = Gray" "'\e[39m' = White" "'\e[0m'  = Zero")
+  for C in "${COLOURS[@]}"
+  do
+    printf "${B}%s${Z}: %s\n" "$PFX" "$C"
+  done
 }
-
-printf '%-0.48s\n' "${PFX} ${W}${@}${Z}"
-
-exit
+colour 
+exit 0
