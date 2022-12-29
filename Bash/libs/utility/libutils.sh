@@ -28,9 +28,9 @@ hasCMD() {
     local -r CHECK="$1"
     if command -v "$CHECK" &>/dev/null
     then
-      echo "Command is available" && return 0
+      echo "Available" && return 0
     else
-      echo "Command is unavailable" && return 1
+      echo "Unavailable" && return 1
     fi
   else
     echo "Command as 1 argument required" && return 2
@@ -52,7 +52,7 @@ hasPKG() {
       echo "Installed" && return 0
     elif apt-cache show "$CHECK" &>/dev/null
     then
-      echo "Not installed, can install" && return 1
+      echo "Not installed, install available" && return 1
     else
       echo "Not installed, install unavailable" && return 2
     fi
