@@ -63,7 +63,7 @@ hasPKG() {
 
 # Shows the number of files in working directory's directory & all its subdirectories excluding hidden directories.
 showDirFiles() {
-  grep --files-with-matches --recursive --exclude-dir='.*' ''
+  grep --files-with-matches --recursive --exclude-dir='.*' '';
 }
 
 # Search for a pattern recursively in files
