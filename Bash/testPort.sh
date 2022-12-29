@@ -7,7 +7,12 @@
 # 3: Invalid number of arguments
 testRemotePort() {
   local -r HOST="$1" PORT="$2"
-  timeout 2.0 bash -c "true 2>/dev/null>/dev/tcp/$HOST/$PORT" && return 0 || return 1
+  if timeout 2.0 bash -c "true &>/dev/null>/dev/tcp/$HOST/$PORT"
+  then
+    echo "open" && return 0
+  else
+    echo "closed" && return 1
+  fi
 }
 if test "$#" -eq 2
 then

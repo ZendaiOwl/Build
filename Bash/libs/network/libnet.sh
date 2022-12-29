@@ -12,9 +12,14 @@ testRemotePort() {
   if test "$#" -eq 2
   then
     local -r HOST="$1" PORT="$2"
-    timeout 2.0 bash -c "true &>/dev/null>/dev/tcp/$HOST/$PORT" || return 1
+    if timeout 2.0 bash -c "true &>/dev/null>/dev/tcp/$HOST/$PORT"
+    then
+      echo "open" && return 0
+    else
+      echo "closed" && return 1
+    fi
   else
-    return 2
+    echo "Requires: [HOST] [PORT]" && return 2
   fi
 }
 
