@@ -6,8 +6,7 @@
 
 # Check if user ID executing script/function is 0 or not
 isRoot() {
-  test "$EUID" -eq 0 && { echo "Is root" && return 0; }
-  test "$EUID" -ne 0 && { echo "Not root" && return 1; }
+  test "$EUID" -eq 0 && { echo "Is root" && return 0 || return 1; }
 }
 
 # Gets the current time in UNIX & regular time (human-readable format)
