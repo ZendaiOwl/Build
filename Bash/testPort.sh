@@ -4,7 +4,6 @@
 # Exit codes
 # 1: Open
 # 2: Closed
-# 3: Invalid number of arguments
 testRemotePort() {
   local -r HOST="$1" PORT="$2"
   timeout 2.0 bash -c "true 2>/dev/null>/dev/tcp/$HOST/$PORT" && return 0 || return 1
