@@ -11,12 +11,7 @@ testRemotePort() {
 }
 if test "$#" -eq 2
 then
-  if testRemotePort "$1" "$2"
-  then
-    echo "open" && exit 0
-  else
-    echo "closed" && exit 1
-  fi
+  testRemotePort "$1" "$2"
 else
-  printf '%s\n\t%s\n\t%s\n' "Requires 2 arguments" "[HOST]: Can be FQDN, IPv4 or IPv6" "[PORT]: Can be any valid port integer" && exit 2
+  return 2
 fi
