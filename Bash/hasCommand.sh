@@ -11,9 +11,9 @@ hasCMD() {
     local -r CHECK="$1"
     if command -v "$CHECK" &>/dev/null
     then
-      echo "Command is available" && exit 0
+      echo "Available" && exit 0
     else
-      echo "Command is unavailable" && exit 1
+      echo "Unavailable" && exit 1
     fi
   else
     echo "Command as 1 argument required" && exit 2

@@ -15,7 +15,7 @@ hasPKG() {
       echo "Installed" && exit 0
     elif apt-cache show "$CHECK" &>/dev/null
     then
-      echo "Not installed, can install" && exit 1
+      echo "Not installed, install available" && exit 1
     else
       echo "Not installed, install unavailable" && exit 2
     fi
