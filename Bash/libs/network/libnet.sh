@@ -12,7 +12,7 @@ testRemotePort() {
   if test "$#" -eq 2
   then
     local -r HOST="$1" PORT="$2"
-    timeout 2.0 bash -c "true 2>/dev/null>/dev/tcp/$HOST/$PORT" && return 0 || return 1
+    timeout 2.0 bash -c "true &>/dev/null>/dev/tcp/$HOST/$PORT" || return 1
   else
     return 2
   fi
@@ -34,21 +34,21 @@ getDNSRecord() {
 getPublicIP() {
   local -r IPv4=$(curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com 2>/dev/null || echo 'N/A') \
            IPv6=$(curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com 2>/dev/null || echo 'N/A')
-  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6" && return 0
+  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6"
 }
 
 # Tests for Public IPv4
 # 0: IPv4 available
 # 1: IPv4 unavailable
 testPublicIPv4() {
-  curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com &>/dev/null && return 0 || return 1
+  curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com &>/dev/null;
 }
 
 # Tests for Public IPv6
 # 0: IPv4 available
 # 1: IPv4 unavailable
 testPublicIPv6() {
-  curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com &>/dev/null && return 0 || return 1
+  curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com &>/dev/null;
 }
 
 # Gets the listening ports on the system
@@ -59,8 +59,8 @@ getListeningPorts() {
 
 # Gets the services running on the network interfaces
 getNetworkInterfaceServices() {
-  test "$EUID" -eq 0 && { lsof -nP -i && return 0; }
-  test "$EUID" -ne 0 && { sudo lsof -nP -i && return 0; }
+  test "$EUID" -eq 0 && { lsof -nP -i; }
+  test "$EUID" -ne 0 && { sudo lsof -nP -i; }
 }
 
 # Gets the HTML code for a URL with Bash TCP

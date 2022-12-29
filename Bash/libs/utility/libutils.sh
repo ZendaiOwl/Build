@@ -3,7 +3,7 @@
 #
 # Bash - Utility Functions
 #
-
+#
 # Check if user ID executing script/function is 0 or not
 isRoot() {
   test "$EUID" -eq 0 && { echo "Is root" && return 0 || return 1; }
@@ -64,17 +64,16 @@ hasPKG() {
 # Shows the number of files in working directory's directory & all its subdirectories excluding hidden directories.
 showDirFiles() {
   grep --files-with-matches --recursive --exclude-dir='.*' ''
-  return 0
 }
 
 # Search for a pattern recursively in files
 searchForPattern() {
-  PATTERN="$*"; grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null && return 0
+  PATTERN="$*"; grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null;
 }
 
 # Search for a files with pattern recursively
 getFilesWithPattern() {
-  PATTERN="$*"; grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null && return 0
+  PATTERN="$*"; grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null;
 }
 
 genPassword() {
@@ -95,18 +94,18 @@ genPassword() {
   # 8: 'A-Z a-z0-9{[|:?!#$@%+*^.~,=()/\\;]}'
   # 9: 'A-Z a-z 0-9 {[|:?!#$@%+*^.~,-()/;/=]}'
   # # # # # # # # # # # # # # # # # # # # # # #
-  < /dev/urandom tr -dc 'A-Z a-z0-9{[|:?!#$@%+*^.~,=()/\\;]}' | head -c"${1:-36}"; printf '\n' && return 0
+  < /dev/urandom tr -dc 'A-Z a-z0-9{[|:?!#$@%+*^.~,=()/\\;]}' | head -c"${1:-36}"; printf '\n';
 }
 
 genOpenSSLPassword() {
   # Generates a password using OpenSSL, default length is 36.
-  openssl rand -base64 "${1:-36}" && return 0
+  openssl rand -base64 "${1:-36}"
 }
 
 getScriptPath() {
   test "$#" -eq 1 && {
-    PTH=$(type -p "$1"); file "$PTH" && return 0
-  } || return 0
+    PTH=$(type -p "$1"); file "$PTH";
+  }
 }
 
 # Displays 8 × 16-bit ANSI colours
