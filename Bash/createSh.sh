@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-set -eu
-
+# Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com>
 NAME="${1}.sh";
 shift
 echo "$NAME";
@@ -8,33 +7,25 @@ DIRNAME=$(dirname "${BASH_SOURCE}");
 echo "$DIRNAME";
 NEW="${DIRNAME}/${NAME}";
 echo "$NEW";
-
-
-
-if [[ $# -gt 0 ]] ; then
-
-TEMPLATE="#!/usr/bin/env bash
-set -euf -o pipefail
+if [[ "$#" -gt 0 ]]
+then
+  TEMPLATE="#!/usr/bin/env bash
+# Victor-ray, S <12261439+ZendaiOwl@users.noreply.github.com>
+#set -euf -o pipefail
 
 ${@}
-
-set +euf -o pipefail
 
 exit 0
 ";
 
 else
-
-TEMPLATE='#!/usr/bin/env bash
-set -euf -o pipefail
-
-set +euf -o pipefail
+  TEMPLATE='#!/usr/bin/env bash
+# Victor-ray, S <12261439+ZendaiOwl@users.noreply.github.com>
+#set -euf -o pipefail
 
 exit 0
 ';
-
-echo "$TEMPLATE";
-
+  echo "$TEMPLATE";
 fi
 
 
@@ -65,5 +56,4 @@ else
 	printf '%s\n' "No clue what happened";
 	exit 1;
 fi
-
 exit 0

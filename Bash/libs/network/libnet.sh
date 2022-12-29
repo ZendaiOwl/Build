@@ -45,8 +45,8 @@ getListeningPorts() {
 
 # Gets the services running on the network interfaces
 getNetworkInterfaceServices() {
-  test "$EUID" -eq 0 && { lsof -nP -i && exit 0; }
-  test "$EUID" -ne 0 && { sudo lsof -nP -i && exit 0; }
+  test "$EUID" -eq 0 && { lsof -nP -i && return 0; }
+  test "$EUID" -ne 0 && { sudo lsof -nP -i && return 0; }
 }
 
 # Gets the HTML code for a URL with Bash TCP
@@ -62,6 +62,6 @@ getURL() {
     echo "Host: $HOST"
     exit 0
   else
-    echo "Requires: [HOST] [PORT]" && exit 1
+    echo "Requires: [HOST] [PORT]" && return 1
   fi
 }
