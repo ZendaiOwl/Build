@@ -74,7 +74,7 @@ getURL() {
     echo
     echo "Connection: close"
     echo "Host: $HOST"
-    exit 0
+    return 0
   else
     echo "Requires: [HOST] [PORT]" && return 1
   fi
