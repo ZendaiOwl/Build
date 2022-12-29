@@ -1,6 +1,13 @@
 # Fly.io toml file
 fly.toml
 
+# Deta Space
+.space
+
+# Deta Cloud
+.deta
+
+
 # Built application files
 *.apk
 *.aar
