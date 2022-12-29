@@ -34,7 +34,21 @@ getDNSRecord() {
 getPublicIP() {
   local -r IPv4=$(curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com 2>/dev/null || echo 'N/A') \
            IPv6=$(curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com 2>/dev/null || echo 'N/A')
-  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6" && exit 0
+  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6" && return 0
+}
+
+# Tests for Public IPv4
+# 0: IPv4 available
+# 1: IPv4 unavailable
+testPublicIPv4() {
+  curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com &>/dev/null && return 0 || return 1
+}
+
+# Tests for Public IPv6
+# 0: IPv4 available
+# 1: IPv4 unavailable
+testPublicIPv6() {
+  curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com &>/dev/null && return 0 || return 1
 }
 
 # Gets the listening ports on the system
