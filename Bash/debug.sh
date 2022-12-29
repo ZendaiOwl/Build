@@ -24,21 +24,11 @@ set -euo pipefail
 # 	
 # 	Reset 		\e[0m || \033[0m
 
-function debug {
-  local RED GREEN YELLOW NC PREFIX PFX
-  RED='\033[0;31m'
-  GREEN='\033[0;32m'
-  YELLOW='\033[0;33m'
-  # No Color
-  NC='\033[0m'
-  PREFIX="${GREEN}INFO${NC}:"
-  PFX="INFO:"
-  # Using echo
-  echo -e "${PREFIX}" "${@}"
-  # Using printf
-  printf '%s\n' "${PFX} ${@}"
+debug() {
+  local -r R='\e[0;35m' B='\e[0;34m' G='\e[0;32m' Z='\e[0m' PFX="DEBUG"
+  printf "${R}%s${Z}: %s\n" "$PFX" "$*" # Red
+  printf "${B}%s${Z}: %s\n" "$PFX" "$*" # Blue
+  printf "${G}%s${Z}: %s\n" "$PFX" "$*" # Green
+  exit 0
 }
-
-debug "${@}"
-
-exit 0
+test "$#" -gt 0 && debug "$*"
