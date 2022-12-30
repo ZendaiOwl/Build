@@ -18,7 +18,7 @@ getTime() {
 }
 
 # Checks if a command exists on the system
-# Exit status codes
+# Return status codes
 # 0: Command exists on the system
 # 1: Command is unavailable on the system
 # 2: Missing command argument to check
@@ -38,7 +38,7 @@ hasCMD() {
 }
 
 # Checks if a package exists on the system
-# Exit status codes
+# Return status codes
 # 0: Package is installed
 # 1: Package is not installed but is available in apt
 # 2: Package is not installed and is not available in apt
@@ -83,7 +83,7 @@ genPassword() {
   # Ex. This one below uses the most commonly allowed password characters
   # < /dev/urandom tr -dc 'A-Z-a-z-0-9' | head -c${1:-32};echo;
   # 
-  # [Patterns]
+  # Patterns ex.
   # 1: 'A-Z a-z 0-9'
   # 2: 'A-Z a-z 0-9 {[#$@]}'
   # 3: 'A-Z a-z 0-9 {[#$@*-+/]}'
