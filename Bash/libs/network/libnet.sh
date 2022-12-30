@@ -69,17 +69,14 @@ getNetworkInterfaceServices() {
 }
 
 # Gets the HTML code for a URL with Bash TCP
+# Reuires the host TCP server to listen on HTTP, not HTTPS 
 getURL() {
   if test "$#" -eq 2
   then
     local -r HOST="$1" PORT="$2"
     exec 5<>/dev/tcp/"$HOST"/"$PORT"
-    echo -e "GET / HTTP/1.0\\n" >&5
-    cat <&5
-    echo
-    echo "Connection: close"
-    echo "Host: $HOST"
-    return 0
+    echo -e "GET / HTTP/1.1\r\nHost: $HOST\r\nConnection: close\r\n\r" >&5
+    cat <&5 && return 0
   else
     echo "Requires: [HOST] [PORT]" && return 1
   fi
