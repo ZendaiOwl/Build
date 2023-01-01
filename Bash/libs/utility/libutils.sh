@@ -334,11 +334,19 @@ recordCommandOutput() {
   if test "$#" -eq 1
   then
     local -r COMMAND="$1" LOGFILE="log.txt"
-    touch "$LOGFILE"
-    bash -c "$COMMAND" | tee -a "$LOGFILE"
-    return 0
+    if test -f "$LOGFILE"
+    then
+      echo "$LOGFILE exists, appending to existing file"
+      echo "Appending new output from $COMMAND" | tee -a "$LOGFILE"
+      bash -c "$COMMAND" | tee -a "$LOGFILE"
+      return 0
+    else
+      touch "$LOGFILE"
+      bash -c "$COMMAND" | tee -a "$LOGFILE"
+      return 0
+    fi
   else
-    echo "Reuires 1 argument: [Command to record output of]"
+    echo "Requires 1 argument: [Command to record output of]"
     return 1
   fi
 }
