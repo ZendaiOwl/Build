@@ -329,6 +329,20 @@ getScriptPath() {
   }
 }
 
+# Records the output of a command to a file.
+recordCommandOutput() {
+  if test "$#" -eq 1
+  then
+    local -r COMMAND="$1" LOGFILE="log.txt"
+    touch "$LOGFILE"
+    bash -c "$COMMAND" | tee -a "$LOGFILE"
+    return 0
+  else
+    echo "Reuires 1 argument: [Command to record output of]"
+    return 1
+  fi
+}
+
 # TODO
 # Debug log function
 # Info log function
