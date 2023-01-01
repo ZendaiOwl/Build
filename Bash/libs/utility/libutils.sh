@@ -24,6 +24,20 @@ getTime() {
   return 0
 }
 
+# Converts UNIX timestamps to regular human-readable timestamp
+unixTimeToRegular() {
+  if test "$#" -eq 1
+  then
+    local -r UNIXTIME="$1"
+    local -r REGULAR=$(date -d @"$UNIXTIME")
+    printf '%s\n' "$REGULAR"
+    return 0
+  else
+    echo "Requires 1 argument: [UNIX Timestamp]"
+    return 1
+  fi
+}
+
 # Checks if a command exists on the system
 # Return status codes
 # 0: Command exists on the system
