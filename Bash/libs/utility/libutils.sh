@@ -38,6 +38,31 @@ unixTimeToRegular() {
   fi
 }
 
+# Gets the locale's date definition
+getLocaleTime() {
+  if test "$#" -eq 0
+  then
+    date +%x
+    return 0
+  else
+    echo "Requires no arguments"
+    return 1
+  fi
+}
+
+# Gets the locale's time definition
+getLocaleDate() {
+  if test "$#" -eq 0
+  then
+    date +%X
+    return 0
+  else
+    echo "Requires no arguments"
+    return 1
+  fi
+}
+
+
 # Checks if a command exists on the system
 # Return status codes
 # 0: Command exists on the system
