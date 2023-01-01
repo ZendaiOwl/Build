@@ -84,19 +84,40 @@ hasPKG() {
 
 # Shows the number of files in working directory's directory & all its subdirectories excluding hidden directories.
 showDirFiles() {
-  grep --files-with-matches --recursive --exclude-dir='.*' ''
+  if test "$#" -eq 0
+  then
+    grep --files-with-matches --recursive --exclude-dir='.*' ''
+    return 0
+  else
+    echo "Requires no arguments"
+    return 1
+  fi
 }
 
 # Search for a pattern recursively in files
 searchForPattern() {
-  local -r PATTERN="$*"
-  grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
+  if test "$#" -gt 0
+  then
+    local -r PATTERN="$*"
+    grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
+    return 0
+  else
+    echo "Requires minimum 1 argument and up: [Pattern to locate]"
+    return 1
+  fi
 }
 
 # Search for a files with pattern recursively
 getFilesWithPattern() {
-  local -r PATTERN="$*"
-  grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
+  if test "$#" -gt 0
+  then
+    local -r PATTERN="$*"
+    grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
+    return 0
+  else
+    echo "Requires minimum 1 argument and up: [Pattern to locate]"
+    return 1
+  fi
 }
 
 # Deletes a specified line in a file
@@ -233,8 +254,7 @@ genPassword() {
   # 9: 'A-Z a-z 0-9 {[|:?!#$@%+*^.~,-()/;/=]}'
   # # # # # # # # # # # # # # # # # # # # # # #
   #< /dev/urandom tr -dc 'A-Z a-z0-9{[|:?!#$@%+*^.~,=()/\\;]}' | head -c"${1:-36}"; printf '\n';
-  < /dev/urandom tr -dc 'A-Za-z0-9{[#$@]}' | head -c"${1:-36}"
-  printf '\n'
+  < /dev/urandom tr -dc 'A-Za-z0-9{[#$@]}' | head -c"${1:-36}"; printf '\n'
   return 0
 }
 
