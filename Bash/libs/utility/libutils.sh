@@ -357,8 +357,8 @@ recordCommandOutput() {
 debug() {
   if test "$#" -gt 0
   then
-    local -r CYAN='\e[36m' Z='\e[0m' PFX="DEBUG" INPUT="$*"
-    printf "${CYAN}%s${Z}: %s\n" "$PFX" "$INPUT"
+    local -r CYAN='\e[36m' Z='\e[0m' PFX="DEBUG"
+    printf "${CYAN}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
     echo "Requires text as argument(s) to log"
@@ -370,8 +370,8 @@ debug() {
 info() {
   if test "$#" -gt 0
   then
-    local -r BLUE='\e[34m' Z='\e[0m' PFX="INFO" INPUT="$*"
-    printf "${BLUE}%s${Z}: %s\n" "$PFX" "$INPUT"
+    local -r BLUE='\e[34m' Z='\e[0m' PFX="INFO"
+    printf "${BLUE}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
     echo "Requires text as argument(s) to log"
@@ -383,8 +383,8 @@ info() {
 success() {
   if test "$#" -gt 0
   then
-    local -r GREEN='\e[32m' Z='\e[0m' PFX="SUCCESS" INPUT="$*"
-    printf "${GREEN}%s${Z}: %s\n" "$PFX" "$INPUT"
+    local -r GREEN='\e[32m' Z='\e[0m' PFX="SUCCESS"
+    printf "${GREEN}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
     echo "Requires text as argument(s) to log"
@@ -396,8 +396,8 @@ success() {
 warning() {
   if test "$#" -gt 0
   then
-    local -r YELLOW='\e[33m' Z='\e[0m' PFX="WARNING" INPUT="$*"
-    printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$INPUT"
+    local -r YELLOW='\e[33m' Z='\e[0m' PFX="WARNING"
+    printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
     echo "Requires text as argument(s) to log"
@@ -409,8 +409,8 @@ warning() {
 error() {
   if test "$#" -gt 0
   then
-    local -r RED='\e[31m' Z='\e[0m' PFX="ERROR" INPUT="$*"
-    printf "${RED}%s${Z}: %s\n" "$PFX" "$INPUT"
+    local -r RED='\e[31m' Z='\e[0m' PFX="ERROR"
+    printf "${RED}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
     echo "Requires text as argument(s) to log"
