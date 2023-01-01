@@ -19,10 +19,11 @@ isRoot() {
 # Gets the current time in UNIX & regular time (human-readable format)
 getTime() {
   local -r UNIX=$(date +%s)
-  local -r REGULAR=$(date -d @"$UNIX")
-  printf '%s\n%s\n' "Regular: $REGULAR" "Unix: $UNIX"
+  local -r REGULAR=$(date -d @"$UNIX") LOCALEDATE=$(date +%x) LOCALETIME=$(date +%X)
+  printf '%s\n%s\n%s\n%s\n' "Regular: $REGULAR" "Unix: $UNIX" "Locale's Date: $LOCALEDATE" "Locale's Time: $LOCALETIME"
   return 0
 }
+
 
 # Converts UNIX timestamps to regular human-readable timestamp
 unixTimeToRegular() {
