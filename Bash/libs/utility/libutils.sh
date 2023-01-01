@@ -240,8 +240,14 @@ genPassword() {
 
 # Generates a password using OpenSSL, default length is 36.
 genOpenSSLPassword() {
-  openssl rand -base64 "${1:-36}"
-  return 0
+  if hasCMD openssl &> /dev/null
+  then
+    openssl rand -base64 "${1:-36}"
+    return 0
+  else
+    echo "OpenSSL command not available"
+    return 1
+  fi
 }
 
 # Gets the PATH for a script file
