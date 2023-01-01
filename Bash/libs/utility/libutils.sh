@@ -352,11 +352,71 @@ recordCommandOutput() {
 }
 
 # TODO
+
 # Debug log function
+debug() {
+  if test "$#" -gt 0
+  then
+    local -r CYAN='\e[36m' Z='\e[0m' PFX="DEBUG" INPUT="$*"
+    printf "${CYAN}%s${Z}: %s\n" "$PFX" "$INPUT"
+    return 0
+  else
+    echo "Requires text as argument(s) to log"
+    return 1
+  fi
+}
+
 # Info log function
+info() {
+  if test "$#" -gt 0
+  then
+    local -r BLUE='\e[34m' Z='\e[0m' PFX="INFO" INPUT="$*"
+    printf "${BLUE}%s${Z}: %s\n" "$PFX" "$INPUT"
+    return 0
+  else
+    echo "Requires text as argument(s) to log"
+    return 1
+  fi
+}
+
 # Success log function
+success() {
+  if test "$#" -gt 0
+  then
+    local -r GREEN='\e[32m' Z='\e[0m' PFX="SUCCESS" INPUT="$*"
+    printf "${GREEN}%s${Z}: %s\n" "$PFX" "$INPUT"
+    return 0
+  else
+    echo "Requires text as argument(s) to log"
+    return 1
+  fi
+}
+
 # Warning log function
+warning() {
+  if test "$#" -gt 0
+  then
+    local -r YELLOW='\e[33m' Z='\e[0m' PFX="WARNING" INPUT="$*"
+    printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$INPUT"
+    return 0
+  else
+    echo "Requires text as argument(s) to log"
+    return 1
+  fi
+}
+
 # Error log function
+error() {
+  if test "$#" -gt 0
+  then
+    local -r RED='\e[31m' Z='\e[0m' PFX="ERROR" INPUT="$*"
+    printf "${RED}%s${Z}: %s\n" "$PFX" "$INPUT"
+    return 0
+  else
+    echo "Requires text as argument(s) to log"
+    return 1
+  fi
+}
 
 # Displays 8 × 16-bit ANSI colours
 colour() {
