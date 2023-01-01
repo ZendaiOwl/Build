@@ -145,6 +145,18 @@ getFilesWithPattern() {
   fi
 }
 
+# Counts the number of files recursively from current working directory
+countDireFiles() {
+  if test "$#" -eq 0
+  then
+    grep --recursive --files-with-matches --exclude-dir='.*' '' | wc -l
+    return 0
+  else
+    echo "Requires no arguments"
+    return 1
+  fi
+}
+
 # Deletes a specified line in a file
 deleteLineInFile() {
   if test "$#" -eq 2
@@ -257,6 +269,19 @@ insertTextAtLastLine() {
     return 0
   else
     echo "Requires 2 arguments: [Text to insert] [File]"
+    return 1
+  fi
+}
+
+# Gets the length of an array
+arrayLength() {
+  if test "$#" -eq 1
+  then
+    local -r ARR="$1"
+    echo "${#ARR[@]}"
+    return 0
+  else
+    echo "Requires 1 argument: [Array]"
     return 1
   fi
 }
