@@ -54,7 +54,7 @@ hasCMD() {
       echo "Unavailable" && return 1
     fi
   else
-    echo "Command as 1 argument required" && return 2
+    echo "Requires 1 argument: [Command]" && return 2
   fi
 }
 
