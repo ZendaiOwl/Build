@@ -64,8 +64,8 @@ getListeningPorts() {
 
 # Gets the services running on the network interfaces
 getNetworkInterfaceServices() {
-  test "$EUID" -eq 0 && { lsof -nP -i; }
-  test "$EUID" -ne 0 && { sudo lsof -nP -i; }
+  test "$EUID" -eq 0 && lsof -nP -i
+  test "$EUID" -ne 0 && sudo lsof -nP -i
 }
 
 # Gets the HTML code for a URL with Bash TCP
