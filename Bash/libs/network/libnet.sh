@@ -23,16 +23,16 @@ testRemotePort() {
   fi
 }
 
-# Queries DNS records of a domain
+# Queries DNS record of a domain
 getDNSRecord() {
-  test "$#" -gt 1 && {
-    local -r DOMAIN="$1" RECORD="${*:2}"
+  if test "$#" -gt 1
+  then
+    local -r DOMAIN="$1" RECORD="$2"
     dig "$DOMAIN" "$RECORD" +short
-  }
-  test "$#" -eq 1 && {
+  else
     local -r DOMAIN="$1"
     dig "DOMAIN" +short
-  }
+  fi
 }
 
 # Gets the public IP for the network
