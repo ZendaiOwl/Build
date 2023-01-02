@@ -46,14 +46,14 @@ getPublicIP() {
 # 0: IPv4 available
 # 1: IPv4 unavailable
 testPublicIPv4() {
-  curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com &>/dev/null;
+  curl --silent --max-time 4 --ipv4 ipv4.icanhazip.com &>/dev/null
 }
 
 # Tests for Public IPv6
 # 0: IPv4 available
 # 1: IPv4 unavailable
 testPublicIPv6() {
-  curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com &>/dev/null;
+  curl --silent --max-time 4 --ipv6 ipv6.icanhazip.com &>/dev/null
 }
 
 # Gets the listening ports on the system
