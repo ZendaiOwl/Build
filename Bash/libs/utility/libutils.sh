@@ -43,7 +43,7 @@ unixTimeToRegular() {
 getLocaleTime() {
   if test "$#" -eq 0
   then
-    date +%x
+    date +%X
     return 0
   else
     echo "Requires no arguments"
@@ -55,7 +55,7 @@ getLocaleTime() {
 getLocaleDate() {
   if test "$#" -eq 0
   then
-    date +%X
+    date +%x
     return 0
   else
     echo "Requires no arguments"
