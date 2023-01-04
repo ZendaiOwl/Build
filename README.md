@@ -1,6 +1,6 @@
 A repository for testing builds and buildscripts with GitHub workflow & actions as well as Docker images and whatnot else I can think of that I want to try out. It might evolve into something else in time, I'll see. ☆
 
-☆ A [Gist][notes] with some of my random notes.
+☆ My [Gist][notes] notes.
 
 ☆ [Kernel][kernel]
 
@@ -55,7 +55,7 @@ gawk build-essential bison flex texinfo gperf patchutils bc
 
 [zendai]: https://github.com/ZendaiOwl
 
-[notes]: https://gist.github.com/ZendaiOwl/14726585a0cb20d2027571de29a1b8d9
+[notes]: https://gist.github.com/ZendaiOwl
 
 [musl-cross-make]: https://github.com/richfelker/musl-cross-make
 
