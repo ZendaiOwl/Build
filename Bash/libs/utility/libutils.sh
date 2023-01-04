@@ -402,28 +402,28 @@ recordCommandOutput() {
 log() {
   if test "$#" -gt 0
   then
-    local -r LOGLEVEL="$1" TEXT="${*:2}"
+    local -r LOGLEVEL="$1" TEXT="${*:2}" Z='\e[0m'
     if [[ "$LOGLEVEL" =~ [(-2)-2] ]]
     then
       case "$LOGLEVEL" in
         -2)
-          local -r CYAN='\e[1;36m' Z='\e[0m' PFX="DEBUG"
+          local -r CYAN='\e[1;36m' PFX="DEBUG"
           printf "${CYAN}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         -1)
-          local -r BLUE='\e[1;34m' Z='\e[0m' PFX="INFO"
+          local -r BLUE='\e[1;34m' PFX="INFO"
           printf "${BLUE}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         0)
-          local -r GREEN='\e[1;32m' Z='\e[0m' PFX="SUCCESS"
+          local -r GREEN='\e[1;32m' PFX="SUCCESS"
           printf "${GREEN}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         1)
-          local -r YELLOW='\e[1;33m' Z='\e[0m' PFX="WARNING"
+          local -r YELLOW='\e[1;33m' PFX="WARNING"
           printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         2)
-          local -r RED='\e[1;31m' Z='\e[0m' PFX="ERROR"
+          local -r RED='\e[1;31m' PFX="ERROR"
           printf "${RED}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
       esac
