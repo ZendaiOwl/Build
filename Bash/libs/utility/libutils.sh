@@ -195,7 +195,7 @@ countDireFiles() {
     grep --recursive --files-with-matches --exclude-dir='.*' '' | wc -l
     return 0
   else
-    echo "Requires no arguments"
+    echo "Requires no argument(s)"
     return 1
   fi
 }
