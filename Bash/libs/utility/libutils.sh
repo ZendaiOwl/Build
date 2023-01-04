@@ -392,7 +392,7 @@ recordCommandOutput() {
   fi
 }
 
-# A log function that incorporates the other log level functions
+# A log function uses log levels for logging different outputs
 # Log levels
 # -2: Debug
 # -1: Info
@@ -407,89 +407,29 @@ log() {
     then
       case "$LOGLEVEL" in
         -2)
-          debug "$TEXT"
+          local -r CYAN='\e[1;36m' Z='\e[0m' PFX="DEBUG"
+          printf "${CYAN}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         -1)
-          info "$TEXT"
+          local -r BLUE='\e[1;34m' Z='\e[0m' PFX="INFO"
+          printf "${BLUE}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         0)
-          success "$TEXT"
+          local -r GREEN='\e[1;32m' Z='\e[0m' PFX="SUCCESS"
+          printf "${GREEN}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         1)
-          warning "$TEXT"
+          local -r YELLOW='\e[1;33m' Z='\e[0m' PFX="WARNING"
+          printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
         2)
-          error "$TEXT"
+          local -r RED='\e[1;31m' Z='\e[0m' PFX="ERROR"
+          printf "${RED}%s${Z}: %s\n" "$PFX" "$TEXT"
           ;;
       esac
     else
-      error "Invalid log level: [-2|-1|0|1|2]"
+      log 2 "Invalid log level: [Debug: -2|Info: -1|Success: 0|Warning: 1|Error: 2]"
     fi
-  fi
-}
-
-# Debug log function
-debug() {
-  if test "$#" -gt 0
-  then
-    local -r CYAN='\e[1;36m' Z='\e[0m' PFX="DEBUG"
-    printf "${CYAN}%s${Z}: %s\n" "$PFX" "$*"
-    return 0
-  else
-    echo "Requires text as argument(s) to log"
-    return 1
-  fi
-}
-
-# Info log function
-info() {
-  if test "$#" -gt 0
-  then
-    local -r BLUE='\e[1;34m' Z='\e[0m' PFX="INFO"
-    printf "${BLUE}%s${Z}: %s\n" "$PFX" "$*"
-    return 0
-  else
-    echo "Requires text as argument(s) to log"
-    return 1
-  fi
-}
-
-# Success log function
-success() {
-  if test "$#" -gt 0
-  then
-    local -r GREEN='\e[1;32m' Z='\e[0m' PFX="SUCCESS"
-    printf "${GREEN}%s${Z}: %s\n" "$PFX" "$*"
-    return 0
-  else
-    echo "Requires text as argument(s) to log"
-    return 1
-  fi
-}
-
-# Warning log function
-warning() {
-  if test "$#" -gt 0
-  then
-    local -r YELLOW='\e[1;33m' Z='\e[0m' PFX="WARNING"
-    printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$*"
-    return 0
-  else
-    echo "Requires text as argument(s) to log"
-    return 1
-  fi
-}
-
-# Error log function
-error() {
-  if test "$#" -gt 0
-  then
-    local -r RED='\e[1;31m' Z='\e[0m' PFX="ERROR"
-    printf "${RED}%s${Z}: %s\n" "$PFX" "$*"
-    return 0
-  else
-    echo "Requires text as argument(s) to log"
-    return 1
   fi
 }
 
