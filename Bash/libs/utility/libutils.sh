@@ -137,6 +137,28 @@ hasPKG() {
   fi
 }
 
+# Records the output of a command to a file.
+recordCommandOutput() {
+  if test "$#" -eq 1
+  then
+    local -r COMMAND="$1" LOGFILE="logfile.txt"
+    if test -f "$LOGFILE"
+    then
+      echo "$LOGFILE exists, appending to existing file"
+      echo "Appending new output from $COMMAND" | tee -a "$LOGFILE"
+      bash -c "$COMMAND" | tee -a "$LOGFILE"
+      return 0
+    else
+      touch "$LOGFILE"
+      bash -c "$COMMAND" | tee -a "$LOGFILE"
+      return 0
+    fi
+  else
+    echo "Requires 1 argument: [Command to record output of]"
+    return 1
+  fi
+}
+
 # Shows the number of files in working directory's directory & all its subdirectories excluding hidden directories.
 showDirFiles() {
   if test "$#" -eq 0
@@ -368,28 +390,6 @@ getScriptPath() {
     file "$PTH"
     return 0
   }
-}
-
-# Records the output of a command to a file.
-recordCommandOutput() {
-  if test "$#" -eq 1
-  then
-    local -r COMMAND="$1" LOGFILE="logfile.txt"
-    if test -f "$LOGFILE"
-    then
-      echo "$LOGFILE exists, appending to existing file"
-      echo "Appending new output from $COMMAND" | tee -a "$LOGFILE"
-      bash -c "$COMMAND" | tee -a "$LOGFILE"
-      return 0
-    else
-      touch "$LOGFILE"
-      bash -c "$COMMAND" | tee -a "$LOGFILE"
-      return 0
-    fi
-  else
-    echo "Requires 1 argument: [Command to record output of]"
-    return 1
-  fi
 }
 
 # A log function that uses log levels for logging different outputs
