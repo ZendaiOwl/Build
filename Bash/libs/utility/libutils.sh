@@ -143,6 +143,19 @@ showDirFiles() {
   fi
 }
 
+# Search for pattern in a specific file
+findPatternInFile() {
+  if test "$#" -eq 2
+  then
+    local -r PATTERN="$1" FILE="$2"
+    grep "$PATTERN" "$FILE"
+    return 0
+  else
+  	echo "Requires 2 argument: [Text pattern to find] [File to search]"
+  	return 1
+  fi
+}
+
 # Search for a pattern recursively in files
 searchForPattern() {
   if test "$#" -gt 0
@@ -211,7 +224,7 @@ replaceTextInFile() {
   if test "$#" -eq 3
   then
     local -r FINDTEXT="$1" NEWTEXT="$2" FILE="$3"
-    sed "s|${FINDTEXT}|${NEWTEXT}|g" "$FILE"
+    sed -i "s|${FINDTEXT}|${NEWTEXT}|g" "$FILE"
     return 0
   else
     echo "Requires 3 arguments: [Text to replace] [New text] [File]"
