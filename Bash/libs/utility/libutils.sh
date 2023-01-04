@@ -423,7 +423,7 @@ log() {
           ;;
       esac
     else
-      echo "Invalid log level: [-2|-1|0|1|2]"
+      error "Invalid log level: [-2|-1|0|1|2]"
     fi
   fi
 }
