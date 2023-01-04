@@ -205,7 +205,7 @@ getFilesWithPattern() {
     grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
     return 0
   else
-    echo "Requires minimum 1 argument and up: [Pattern to locate]"
+    echo "Requires minimum 1 argument or more: [Pattern(s) to locate]"
     return 1
   fi
 }
