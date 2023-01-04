@@ -35,7 +35,7 @@ getDNSRecord() {
     dig "$DOMAIN" "$RECORD" +short
   else
     local -r DOMAIN="$1"
-    dig "DOMAIN" +short
+    dig "$DOMAIN" +short
   fi
 }
 
