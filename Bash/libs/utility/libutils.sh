@@ -65,11 +65,8 @@ getLocaleDate() {
 
 # Updates a Git repository directory and signs the commit before pushing with a message
 updateGit() {
-  trap 'exit $?' EXIT ERR SIGTERM SIGABRT
-  set -euo pipefail
   local ADDIR MSG COMSG
   local -r GPG_KEY_ID="E2AC71651803A7F7"
-  
   if [[ "$#" -eq 1 ]] ; then
     ADDIR="$PWD"
     MSG="$1"
@@ -84,7 +81,6 @@ updateGit() {
     git commit "${GIT_COMMIT_ARGS[@]}"
     git push
   )
-  set +euo pipefail
 }
 
 # Checks if a command exists on the system
