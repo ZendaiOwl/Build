@@ -41,7 +41,7 @@ getDNSRecord() {
 
 # Gets the public IP for the network
 getPublicIP() {
-  local -r URLIPv4="ipv4.icanhazip.com" URLIPv6="ipv6.icanhazip.com"
+  local -r URLIPv4="https://ipv4.icanhazip.com" URLIPv6="https://ipv6.icanhazip.com"
   local -r IPv4=$(curl --silent --max-time 4 --ipv4 "$URLIPv4" 2>/dev/null || echo 'N/A') \
            IPv6=$(curl --silent --max-time 4 --ipv6 "$URLIPv6" 2>/dev/null || echo 'N/A')
   printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6"
@@ -51,7 +51,7 @@ getPublicIP() {
 # 0: Public IPv4 Available
 # 1: Public IPv4 Unavailable
 testPublicIPv4() {
-  local -r URL="ipv4.icanhazip.com"
+  local -r URL="https://ipv4.icanhazip.com"
   if curl --silent --max-time 4 --ipv4 "$URL" &>/dev/null
   then
     echo "Available"
@@ -66,7 +66,7 @@ testPublicIPv4() {
 # 0: Public IPv6 Available
 # 1: Public IPv6 Unavailable
 testPublicIPv6() {
-  local -r URL="ipv6.icanhazip.com"
+  local -r URL="https://ipv6.icanhazip.com"
   if curl --silent --max-time 4 --ipv6 "$URL" &>/dev/null
   then
     echo "Available"
