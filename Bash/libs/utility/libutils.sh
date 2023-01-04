@@ -392,13 +392,47 @@ recordCommandOutput() {
   fi
 }
 
-# TODO
+# A log function that incorporates the other log level functions
+# Log levels
+# -2: Debug
+# -1: Info
+#  0: Success
+#  1: Warning
+#  2: Error
+log() {
+  if test "$#" -gt 0
+  then
+    local -r LOGLEVEL="$1" TEXT="${*:2}"
+    if [[ "$LOGLEVEL" =~ [(-2)-2] ]]
+    then
+      case "$LOGLEVEL" in
+        -2)
+          debug "$TEXT"
+          ;;
+        -1)
+          info "$TEXT"
+          ;;
+        0)
+          success "$TEXT"
+          ;;
+        1)
+          warning "$TEXT"
+          ;;
+        2)
+          error "$TEXT"
+          ;;
+      esac
+    else
+      echo "Invalid log level: [-2|-1|0|1|2]"
+    fi
+  fi
+}
 
 # Debug log function
 debug() {
   if test "$#" -gt 0
   then
-    local -r CYAN='\e[36m' Z='\e[0m' PFX="DEBUG"
+    local -r CYAN='\e[1;36m' Z='\e[0m' PFX="DEBUG"
     printf "${CYAN}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
@@ -411,7 +445,7 @@ debug() {
 info() {
   if test "$#" -gt 0
   then
-    local -r BLUE='\e[34m' Z='\e[0m' PFX="INFO"
+    local -r BLUE='\e[1;34m' Z='\e[0m' PFX="INFO"
     printf "${BLUE}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
@@ -424,7 +458,7 @@ info() {
 success() {
   if test "$#" -gt 0
   then
-    local -r GREEN='\e[32m' Z='\e[0m' PFX="SUCCESS"
+    local -r GREEN='\e[1;32m' Z='\e[0m' PFX="SUCCESS"
     printf "${GREEN}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
@@ -437,7 +471,7 @@ success() {
 warning() {
   if test "$#" -gt 0
   then
-    local -r YELLOW='\e[33m' Z='\e[0m' PFX="WARNING"
+    local -r YELLOW='\e[1;33m' Z='\e[0m' PFX="WARNING"
     printf "${YELLOW}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
@@ -450,7 +484,7 @@ warning() {
 error() {
   if test "$#" -gt 0
   then
-    local -r RED='\e[31m' Z='\e[0m' PFX="ERROR"
+    local -r RED='\e[1;31m' Z='\e[0m' PFX="ERROR"
     printf "${RED}%s${Z}: %s\n" "$PFX" "$*"
     return 0
   else
@@ -459,12 +493,25 @@ error() {
   fi
 }
 
-# Displays 8 × 16-bit ANSI colours
+# Displays 8 × 16-bit ANSI bold colours and a blinking effect
+# \e[0;34m = Normal
+# \e[1;34m = Bold
+# \e[2;34m = Light
+# \e[3;34m = Italic
+# \e[4;34m = Underlined
+# \e[5;34m = Blinking
+# \e[6;34m = Blinking
+# \e[7;34m = Background/Highlighted
+# \e[8;34m = Blank/Removed
+# \e[9;34m = Crossed over
+# These can be combined, ex.
+# \e[1;5;m = Blinking Bold
 colour() {
   local -r Z='\e[0m' \
-           COLOUR=('\e[37m' '\e[36m' '\e[35m' '\e[34m' '\e[33m' '\e[32m' '\e[31m' '\e[30m' '\e[0m') \
-           NAME=("WHITE" "CYAN" "PURPLE" "BLUE" "YELLOW" "GREEN" "RED" "BLACK" "RESET")
-  for C in {0..8}
+           COLOUR=('\e[1;37m' '\e[1;36m' '\e[1;35m' '\e[1;34m' '\e[1;33m' '\e[1;32m' '\e[1;31m' '\e[1;30m' '\e[5m' '\e[0m') \
+           NAME=("WHITE" "CYAN" "PURPLE" "BLUE" "YELLOW" "GREEN" "RED" "BLACK" "BLINK" "RESET")
+  local -r LENGTH="${#NAME[@]}"
+  for (( C = 0; C < "$LENGTH"; C++ ))
   do
     printf "${COLOUR[$C]}%s${Z} \t%s\n" "${NAME[$C]}" "${COLOUR[$C]}"
   done
