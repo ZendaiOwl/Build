@@ -5,6 +5,9 @@
 #
 
 # Check if user ID executing script/function is 0 or not
+# Return codes
+# 0: Is root
+# 1: Not root
 isRoot() {
   if test "$EUID" -eq 0
   then
@@ -21,7 +24,6 @@ getTime() {
   local -r UNIX=$(date +%s)
   local -r REGULAR=$(date -d @"$UNIX") LOCALEDATE=$(date +%x) LOCALETIME=$(date +%X)
   printf '%s\n%s\n%s\n%s\n' "Regular: $REGULAR" "Unix: $UNIX" "Locale's Date: $LOCALEDATE" "Locale's Time: $LOCALETIME"
-  return 0
 }
 
 
@@ -46,7 +48,7 @@ getLocaleTime() {
     date +%X
     return 0
   else
-    echo "Requires no arguments"
+    echo "Requires no argument(s)"
     return 1
   fi
 }
@@ -58,29 +60,30 @@ getLocaleDate() {
     date +%x
     return 0
   else
-    echo "Requires no arguments"
+    echo "Requires no argument(s)"
     return 1
   fi
 }
 
 # Updates a Git repository directory and signs the commit before pushing with a message
 updateGit() {
-  local ADDIR MSG COMSG
+  local DIRECTORY MESSAGE COMMITMESSAGE
   local -r GPG_KEY_ID="E2AC71651803A7F7"
   if [[ "$#" -eq 1 ]] ; then
-    ADDIR="$PWD"
-    MSG="$1"
+    DIRECTORY="$PWD"
+    MESSAGE="$1"
   elif [[ "$#" -gt 1 ]] ; then
-    ADDIR="$1"
-    MSG="${*:2}"
+    DIRECTORY="$1"
+    MESSAGE="${*:2}"
   fi
   (
-    COMSG="࿓❯ $MSG"
-    local -r GIT_COMMIT_ARGS=(--signoff --gpg-sign="$GPG_KEY_ID" -m "$COMSG")
-    git add "$ADDIR"
+    COMMITMESSAGE="࿓❯ $MESSAGE"
+    local -r GIT_COMMIT_ARGS=(--signoff --gpg-sign="$GPG_KEY_ID" -m "$COMMITMESSAGE")
+    git add "$DIRECTORY"
     git commit "${GIT_COMMIT_ARGS[@]}"
     git push
   )
+  return 0
 }
 
 # Checks if a command exists on the system
@@ -94,12 +97,15 @@ hasCMD() {
     local -r CHECK="$1"
     if command -v "$CHECK" &>/dev/null
     then
-      echo "Available" && return 0
+      echo "Available"
+      return 0
     else
-      echo "Unavailable" && return 1
+      echo "Unavailable"
+      return 1
     fi
   else
-    echo "Requires 1 argument: [Command]" && return 2
+    echo "Requires 1 argument: [Command]"
+    return 2
   fi
 }
 
@@ -115,15 +121,19 @@ hasPKG() {
     local -r CHECK="$1"
     if dpkg-query -s "$CHECK" &>/dev/null
     then
-      echo "Installed" && return 0
+      echo "Installed"
+      return 0
     elif apt-cache show "$CHECK" &>/dev/null
     then
-      echo "Not installed, install available" && return 1
+      echo "Not installed, install available"
+      return 1
     else
-      echo "Not installed, install unavailable" && return 2
+      echo "Not installed, install unavailable"
+      return 2
     fi
   else
-    echo "Package as 1 argument required" && return 3
+    echo "Requires 1 argument: [Package]"
+    return 3
   fi
 }
 
@@ -134,7 +144,7 @@ showDirFiles() {
     grep --files-with-matches --recursive --exclude-dir='.*' ''
     return 0
   else
-    echo "Requires no arguments"
+    echo "Requires no argument(s)"
     return 1
   fi
 }
@@ -160,7 +170,7 @@ searchForPattern() {
     grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
     return 0
   else
-    echo "Requires minimum 1 argument and up: [Pattern to locate]"
+    echo "Requires 1 argument or more: [Pattern(s) to locate]"
     return 1
   fi
 }
@@ -195,7 +205,7 @@ deleteLineInFile() {
   if test "$#" -eq 2
   then
     local -r LINENR="$1" FILE="$2"
-    sed ''"$LINENR"'d' "$FILE"
+    sed -i ''"$LINENR"'d' "$FILE"
     return 0
   else
     echo "Requires 2 arguments: [Line number] [File]"
@@ -208,7 +218,7 @@ deleteRangeInFile() {
   if test "$#" -eq 3
   then
     local -r START="$1" END="$2" FILE="$3"
-    sed ''"$START"','"$END"'d' "$FILE"
+    sed -i ''"$START"','"$END"'d' "$FILE"
   else
     echo "Requires 3 arguments: [Start of range] [End of range] [File]"
     return 1
@@ -233,7 +243,7 @@ appendTextAtLine() {
   if test "$#" -eq 3
   then
     local -r LINENR="$1" TEXT="$2" FILE="$3"
-    sed ''"$LINENR"'a '"$TEXT"'' "$FILE"
+    sed -i ''"$LINENR"'a '"$TEXT"'' "$FILE"
     return 0
   else
     echo "Requires 3 arguments: [Line number] [Text to append] [File]"
@@ -246,7 +256,7 @@ appendTextAtPattern() {
   if test "$#" -eq 3
   then
     local -r PATTERN="$1" TEXT="$2" FILE="$3"
-    sed '/'"$PATTERN"'/a '"$TEXT"'' "$FILE"
+    sed -i '/'"$PATTERN"'/a '"$TEXT"'' "$FILE"
     return 0
   else
     echo "Requires 3 arguments: [Text pattern] [Text to append] [File]"
@@ -259,7 +269,7 @@ appendTextAtLastLine() {
   if test "$#" -eq 2
   then
     local -r TEXT="$1" FILE="$2"
-    sed '$a '"$TEXT"'' "$FILE"
+    sed -i '$a '"$TEXT"'' "$FILE"
     return 0
   else
     echo "Requires 2 arguments: [Text to append] [File]"
@@ -272,7 +282,7 @@ insertTextAtLine() {
   if test "$#" -eq 3
   then
     local -r LINENR="$1" TEXT="$2" FILE="$3"
-    sed ''"$LINENR"'i '"$TEXT"'' "$FILE"
+    sed -i ''"$LINENR"'i '"$TEXT"'' "$FILE"
     return 0
   else
     echo "Requires 3 arguments: [Line number] [Text to insert] [File]"
@@ -285,7 +295,7 @@ insertTextAtPattern() {
   if test "$#" -eq 3
   then
     local -r PATTERN="$1" TEXT="$2" FILE="$3"
-    sed '/'"$PATTERN"'/i '"$TEXT"'' "$FILE"
+    sed -i '/'"$PATTERN"'/i '"$TEXT"'' "$FILE"
     return 0
   else
     echo "Requires 3 arguments: [Text pattern] [Text to insert] [File]"
@@ -298,7 +308,7 @@ insertTextAtLastLine() {
   if test "$#" -eq 2
   then
     local -r TEXT="$1" FILE="$2"
-    sed '$i '"$TEXT"'' "$FILE"
+    sed -i '$i '"$TEXT"'' "$FILE"
     return 0
   else
     echo "Requires 2 arguments: [Text to insert] [File]"
@@ -336,9 +346,7 @@ genPassword() {
   # 8: 'A-Z a-z0-9<{[|:?!#$@%+*^.~,=()/\\;]}>'
   # 9: 'A-Z a-z0-9<{[|:?!#$@%+*^.~,-()/;/=]}>'
   # # # # # # # # # # # # # # # # # # # # # # #
-  #< /dev/urandom tr -dc 'A-Z a-z0-9{[|:?!#$@%+*^.~,=()/\\;]}' | head -c"${1:-36}"; printf '\n';
   < /dev/urandom tr -dc 'A-Za-z0-9{[#$@]}' | head -c"${1:-36}"; printf '\n'
-  return 0
 }
 
 # Generates a password using OpenSSL, default length is 36.
@@ -366,7 +374,7 @@ getScriptPath() {
 recordCommandOutput() {
   if test "$#" -eq 1
   then
-    local -r COMMAND="$1" LOGFILE="log.txt"
+    local -r COMMAND="$1" LOGFILE="logfile.txt"
     if test -f "$LOGFILE"
     then
       echo "$LOGFILE exists, appending to existing file"
@@ -460,5 +468,4 @@ colour() {
   do
     printf "${COLOUR[$C]}%s${Z} \t%s\n" "${NAME[$C]}" "${COLOUR[$C]}"
   done
-  return 0
 }
