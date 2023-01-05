@@ -159,6 +159,19 @@ recordCommandOutput() {
   fi
 }
 
+# Uses "$(<"$FILE")" to read a file to STDOUT, supposedly faster than cat.
+readFile() {
+  if [[ "$#" -eq 1 ]]
+  then
+    if [[ -f "$1" ]]
+    then
+      printf '%s\n' "$(<"$1")"
+    else
+      printf '%s\n' "Not a file"
+    fi
+  fi
+}
+
 # Shows the number of files in working directory's directory & all its subdirectories excluding hidden directories.
 showDirFiles() {
   if test "$#" -eq 0
@@ -211,7 +224,7 @@ getFilesWithPattern() {
 }
 
 # Counts the number of files recursively from current working directory
-countDireFiles() {
+countDirFiles() {
   if test "$#" -eq 0
   then
     grep --recursive --files-with-matches --exclude-dir='.*' '' | wc -l
