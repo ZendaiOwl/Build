@@ -39,6 +39,23 @@ getDNSRecord() {
   fi
 }
 
+# Gets the local IP for the device
+# IPv4, IPv6 & Link-local
+getLocalIP() {
+  if command -v jq &>/dev/null
+  then
+    ip -j address | jq '.[2].addr_info' | jq -r '.[].local'
+  fi
+}
+
+# Gets all the local IP-addresses on the device
+getAllLocalIP() {
+  if command -v jq &>/dev/null
+  then
+    ip -j address | jq '.[].addr_info' | jq -r '.[].local'
+  fi
+}
+
 # Gets the public IP for the network
 getPublicIP() {
   local -r URLIPv4="https://ipv4.icanhazip.com" URLIPv6="https://ipv6.icanhazip.com"
