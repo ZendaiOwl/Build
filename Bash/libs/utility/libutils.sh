@@ -16,12 +16,27 @@ isRoot() {
   fi
 }
 
+# Checks if an argument parameter variable is an array or not
+isArray() {
+  if ! [[ "$#" -eq 1 ]]
+  then
+    echo "Requires 1 argument: [The variable to check if it's an array or not]"
+    return 2
+  elif ! declare -a "$1" &>/dev/null
+  then
+    echo "Not an array: $1"
+    return 1
+  else
+    echo "Is an array: $1"
+    return 1
+  fi
+}
+
 # Gets the current time in UNIX & regular time (human-readable format)
 getTime() {
   local -r UNIX=$(date +%s)
   local -r REGULAR=$(date -d @"$UNIX") LOCALEDATE=$(date +%x) LOCALETIME=$(date +%X)
   printf 'Regular: %s\nUnix: %s\nLocale´s Date: %s\nLocale´s Time: %s\n' "$REGULAR" "$UNIX" "$LOCALEDATE" "$LOCALETIME"
-  return 0
 }
 
 # Converts UNIX timestamps to regular human-readable timestamp
