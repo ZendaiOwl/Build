@@ -3,14 +3,13 @@
 #
 # Bash - Network Functions
 #
-
 # Test if a port is open or closed on a remote host
-# Return codes
-# 0: Open
-# 1: Closed
-# 2: Invalid number of arguments
+# Exit codes
+# 1: Open
+# 2: Closed
+# 3: Invalid number of arguments
 testRemotePort() {
-  if test "$#" -eq 2
+  if [[ "$#" -eq 2 ]]
   then
     local -r HOST="$1" PORT="$2"
     if timeout 2.0 bash -c "true &>/dev/null>/dev/tcp/${HOST}/${PORT}"
@@ -29,7 +28,7 @@ testRemotePort() {
 
 # Queries DNS record of a domain
 getDNSRecord() {
-  if test "$#" -gt 1
+  if [[ "$#" -gt 1 ]]
   then
     local -r DOMAIN="$1" RECORD="$2"
     dig "$DOMAIN" "$RECORD" +short
@@ -37,6 +36,14 @@ getDNSRecord() {
     local -r DOMAIN="$1"
     dig "$DOMAIN" +short
   fi
+}
+
+# Gets the public IP for the network
+getPublicIP() {
+  local -r URLIPv4="https://ipv4.icanhazip.com" URLIPv6="https://ipv6.icanhazip.com"
+  local -r IPv4=$(curl --silent --max-time 4 --ipv4 "$URLIPv4" 2>/dev/null || echo 'N/A') \
+           IPv6=$(curl --silent --max-time 4 --ipv6 "$URLIPv6" 2>/dev/null || echo 'N/A')
+  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6"
 }
 
 # Gets the local IP for the device
@@ -54,14 +61,6 @@ getAllLocalIP() {
   then
     ip -j address | jq '.[].addr_info' | jq -r '.[].local'
   fi
-}
-
-# Gets the public IP for the network
-getPublicIP() {
-  local -r URLIPv4="https://ipv4.icanhazip.com" URLIPv6="https://ipv6.icanhazip.com"
-  local -r IPv4=$(curl --silent --max-time 4 --ipv4 "$URLIPv4" 2>/dev/null || echo 'N/A') \
-           IPv6=$(curl --silent --max-time 4 --ipv6 "$URLIPv6" 2>/dev/null || echo 'N/A')
-  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6"
 }
 
 # Tests for Public IPv4
@@ -96,7 +95,7 @@ testPublicIPv6() {
 
 # Gets the listening ports on the system
 getListeningPorts() {
-  if test "$EUID" -eq 0
+  if [[ "$EUID" -eq 0 ]]
   then
     grep 'LISTEN' <(lsof -i -P -n)
   else
@@ -106,7 +105,7 @@ getListeningPorts() {
 
 # Gets the services running on the network interfaces
 getNetworkInterfaceServices() {
-  if test "$EUID" -eq 0
+  if [[ "$EUID" -eq 0 ]]
   then
   	lsof -nP -i
   else
@@ -117,7 +116,7 @@ getNetworkInterfaceServices() {
 # Gets the HTML code for a URL with Bash TCP
 # Reuires the host TCP server to listen on HTTP, not HTTPS 
 getURL() {
-  if test "$#" -eq 2
+  if [[ "$#" -eq 2 ]]
   then
     local -r HOST="$1" PORT="$2"
     exec 5<>/dev/tcp/"$HOST"/"$PORT"

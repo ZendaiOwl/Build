@@ -5,11 +5,8 @@
 #
 
 # Check if user ID executing script/function is 0 or not
-# Return codes
-# 0: Is root
-# 1: Not root
 isRoot() {
-  if test "$EUID" -eq 0
+  if [[ "$EUID" -eq 0 ]]
   then
     echo "Is root"
     return 0
@@ -23,14 +20,13 @@ isRoot() {
 getTime() {
   local -r UNIX=$(date +%s)
   local -r REGULAR=$(date -d @"$UNIX") LOCALEDATE=$(date +%x) LOCALETIME=$(date +%X)
-  printf 'Regular: %s\nUnix: %s\nLocale´s Date: %s\n Locale´s Time: %s\n' "$REGULAR" "$UNIX" "$LOCALEDATE" "$LOCALETIME"
+  printf 'Regular: %s\nUnix: %s\nLocale´s Date: %s\nLocale´s Time: %s\n' "$REGULAR" "$UNIX" "$LOCALEDATE" "$LOCALETIME"
   return 0
 }
 
-
 # Converts UNIX timestamps to regular human-readable timestamp
 unixTimeToRegular() {
-  if test "$#" -eq 1
+  if [[ "$#" -eq 1 ]]
   then
     local -r UNIXTIME="$1"
     local -r REGULAR=$(date -d @"$UNIXTIME")
@@ -44,24 +40,24 @@ unixTimeToRegular() {
 
 # Gets the locale's date definition
 getLocaleTime() {
-  if test "$#" -eq 0
+  if [[ "$#" -eq 0 ]]
   then
     date +%X
     return 0
   else
-    echo "Requires no argument(s)"
+    echo "Requires no arguments"
     return 1
   fi
 }
 
 # Gets the locale's time definition
 getLocaleDate() {
-  if test "$#" -eq 0
+  if [[ "$#" -eq 0 ]]
   then
     date +%x
     return 0
   else
-    echo "Requires no argument(s)"
+    echo "Requires no arguments"
     return 1
   fi
 }
@@ -84,7 +80,6 @@ updateGit() {
     git commit "${GIT_COMMIT_ARGS[@]}"
     git push
   )
-  return 0
 }
 
 # Checks if a command exists on the system
@@ -93,7 +88,7 @@ updateGit() {
 # 1: Command is unavailable on the system
 # 2: Missing command argument to check
 hasCMD() {
-  if test "$#" -eq 1
+  if [[ "$#" -eq 1 ]]
   then
     local -r CHECK="$1"
     if command -v "$CHECK" &>/dev/null
@@ -117,7 +112,7 @@ hasCMD() {
 # 2: Package is not installed and is not available in apt
 # 3: Missing package argument to check
 hasPKG() {
-  if test "$#" -eq 1
+  if [[ "$#" -eq 1 ]]
   then
     local -r CHECK="$1"
     if dpkg-query -s "$CHECK" &>/dev/null
@@ -133,34 +128,12 @@ hasPKG() {
       return 2
     fi
   else
-    echo "Requires 1 argument: [Package]"
+    echo "Package as 1 argument required"
     return 3
   fi
 }
 
-# Records the output of a command to a file.
-recordCommandOutput() {
-  if test "$#" -eq 1
-  then
-    local -r COMMAND="$1" LOGFILE="logfile.txt"
-    if test -f "$LOGFILE"
-    then
-      echo "$LOGFILE exists, appending to existing file"
-      echo "Appending new output from $COMMAND" | tee -a "$LOGFILE"
-      bash -c "$COMMAND" | tee -a "$LOGFILE"
-      return 0
-    else
-      touch "$LOGFILE"
-      bash -c "$COMMAND" | tee -a "$LOGFILE"
-      return 0
-    fi
-  else
-    echo "Requires 1 argument: [Command to record output of]"
-    return 1
-  fi
-}
-
-# Uses "$(<"$FILE")" to read a file to STDOUT, supposedly faster than cat.
+# Uses $(<) to read a file to STDOUT, supposedly faster than cat.
 readFile() {
   if [[ "$#" -eq 1 ]]
   then
@@ -173,195 +146,252 @@ readFile() {
   fi
 }
 
-# Shows the number of files in working directory's directory & all its subdirectories excluding hidden directories.
+# Shows the files in the current working directory's directory & all its sub-directories excluding hidden directories.
 showDirFiles() {
-  if test "$#" -eq 0
+  if [[ "$#" -eq 0 ]]
   then
     grep --files-with-matches --recursive --exclude-dir='.*' ''
     return 0
   else
-    echo "Requires no argument(s)"
-    return 1
-  fi
-}
-
-# Search for pattern in a specific file
-findPatternInFile() {
-  if test "$#" -eq 2
-  then
-    local -r PATTERN="$1" FILE="$2"
-    grep "$PATTERN" "$FILE"
-    return 0
-  else
-  	echo "Requires 2 argument: [Text pattern to find] [File to search]"
-  	return 1
-  fi
-}
-
-# Search for a pattern recursively in files
-searchForPattern() {
-  if test "$#" -gt 0
-  then
-    local -r PATTERN="$*"
-    grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
-    return 0
-  else
-    echo "Requires 1 argument or more: [Pattern(s) to locate]"
-    return 1
-  fi
-}
-
-# Search for a files with pattern recursively
-getFilesWithPattern() {
-  if test "$#" -gt 0
-  then
-    local -r PATTERN="$*"
-    grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
-    return 0
-  else
-    echo "Requires minimum 1 argument or more: [Pattern(s) to locate]"
+    echo "Requires no arguments"
     return 1
   fi
 }
 
 # Counts the number of files recursively from current working directory
 countDirFiles() {
-  if test "$#" -eq 0
+  if [[ "$#" -eq 0 ]]
   then
     grep --recursive --files-with-matches --exclude-dir='.*' '' | wc -l
     return 0
   else
-    echo "Requires no argument(s)"
+    echo "Requires no arguments"
+    return 1
+  fi
+}
+
+# Search for pattern in a specific file
+findPatternInFile() {
+  if ! [[ "$#" -eq 2 ]]
+  then
+  	echo "Requires 2 argument: [Text pattern to find] [File to search]"
+  	return 2
+  elif ! [[ -f "$2" ]]
+  then
+    echo "Not a file: $2"
+    return 1
+  else
+    local -r PATTERN="$1" FILE="$2"
+    grep "$PATTERN" "$FILE"
+    return 0
+  fi
+}
+
+# Search for a pattern recursively in files of current directory and its sub-directories
+searchForPattern() {
+  if [[ "$#" -gt 0 ]]
+  then
+    local -r PATTERN="$*"
+    grep --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
+    return 0
+  else
+    echo "Requires minimum 1 argument and up: [Pattern(s) to locate]"
+    return 1
+  fi
+}
+
+# Search for a files with pattern(s) recursively
+getFilesWithPattern() {
+  if [[ "$#" -gt 0 ]]
+  then
+    local -r PATTERN="$*"
+    grep --files-with-matches --recursive --exclude-dir '.*' "$PATTERN" 2>/dev/null
+    return 0
+  else
+    echo "Requires minimum 1 argument and up: [Pattern(s) to locate]"
     return 1
   fi
 }
 
 # Deletes a specified line in a file
 deleteLineInFile() {
-  if test "$#" -eq 2
+  if ! [[ "$#" -eq 2 ]]
   then
+    echo "Requires 2 arguments: [Line number] [File]"
+    return 3
+  elif ! [[ "$1" =~ [0-9*] ]]
+  then
+    echo "Not a positive integer digit: $1"
+    return 2
+  elif ! [[ -f "$2" ]]
+  then
+    echo "Not a file: $2"
+    return 1
+  else
     local -r LINENR="$1" FILE="$2"
     sed -i ''"$LINENR"'d' "$FILE"
     return 0
-  else
-    echo "Requires 2 arguments: [Line number] [File]"
-    return 1
   fi
 }
 
 # Deletes a specified range in a file
 deleteRangeInFile() {
-  if test "$#" -eq 3
+  if ! [[ "$#" -eq 3 ]]
   then
+    echo "Requires 3 arguments: [Start of range] [End of range] [File]"
+    return 3
+  elif ! [[ "$1" =~ [0-9*] && "$2" =~ [0-9*] ]]
+  then
+    echo "Not a positive integer digit range: $1 & $2"
+    return 1
+  elif ! [[ -f "$3" ]]
+  then
+    echo "Not a file: $3"
+    return 2
+  else
     local -r START="$1" END="$2" FILE="$3"
     sed -i ''"$START"','"$END"'d' "$FILE"
-  else
-    echo "Requires 3 arguments: [Start of range] [End of range] [File]"
-    return 1
+    return 0
   fi
 }
 
 # Replaces a text pattern in a file with new text
 replaceTextInFile() {
-  if test "$#" -eq 3
+  if ! [[ "$#" -eq 3 ]]
   then
+    echo "Requires 3 arguments: [Text to replace] [New text] [File]"
+    return 2
+  elif ! [[ -f "$3" ]]
+  then
+    echo "Not a file: $3"
+    return 1
+  else
     local -r FINDTEXT="$1" NEWTEXT="$2" FILE="$3"
     sed -i "s|${FINDTEXT}|${NEWTEXT}|g" "$FILE"
     return 0
-  else
-    echo "Requires 3 arguments: [Text to replace] [New text] [File]"
-    return 1
   fi
 }
 
 # Appends text after line number
 appendTextAtLine() {
-  if test "$#" -eq 3
+  if ! [[ "$#" -eq 3 ]]
   then
+    echo "Requires 3 arguments: [Line number] [Text to append] [File]"
+    return 3
+  elif ! [[ -f "$3" ]]
+  then
+    echo "Not a file: $3"
+    return 2
+  elif ! [[ "$1" =~ [0-9*] ]]
+  then
+    echo "Not a positive integer digit: $1"
+    return 1
+  else
     local -r LINENR="$1" TEXT="$2" FILE="$3"
     sed -i ''"$LINENR"'a '"$TEXT"'' "$FILE"
     return 0
-  else
-    echo "Requires 3 arguments: [Line number] [Text to append] [File]"
-    return 1
   fi
 }
 
 # Appends text after matching text pattern
 appendTextAtPattern() {
-  if test "$#" -eq 3
+  if ! [[ "$#" -eq 3 ]]
   then
+    echo "Requires 3 arguments: [Text pattern] [Text to append] [File]"
+    return 2
+  elif ! [[ -f "$3" ]]
+  then
+  	echo "Not a file: $3"
+  	return 1
+  else
     local -r PATTERN="$1" TEXT="$2" FILE="$3"
     sed -i '/'"$PATTERN"'/a '"$TEXT"'' "$FILE"
     return 0
-  else
-    echo "Requires 3 arguments: [Text pattern] [Text to append] [File]"
-    return 1
   fi
 }
 
 # Appends text after the last line
 appendTextAtLastLine() {
-  if test "$#" -eq 2
+  if ! [[ "$#" -eq 2 ]]
   then
+    echo "Requires 2 arguments: [Text to append] [File]"
+    return 2
+  elif ! [[ -f "$2" ]]
+  then
+    echo "Not a file: $2"
+    return 1
+  else
     local -r TEXT="$1" FILE="$2"
     sed -i '$a '"$TEXT"'' "$FILE"
     return 0
-  else
-    echo "Requires 2 arguments: [Text to append] [File]"
-    return 1
   fi
 }
 
 # Insert text before line number
 insertTextAtLine() {
-  if test "$#" -eq 3
+  if ! [[ "$#" -eq 3 ]]
   then
+    echo "Requires 3 arguments: [Line number] [Text to insert] [File]"
+    return 2
+  elif ! [[ -f "$3" ]]
+  then
+    echo "Not a file: $3"
+    return 1
+  else
     local -r LINENR="$1" TEXT="$2" FILE="$3"
     sed -i ''"$LINENR"'i '"$TEXT"'' "$FILE"
     return 0
-  else
-    echo "Requires 3 arguments: [Line number] [Text to insert] [File]"
-    return 1
   fi
 }
 
 # Insert text before matching text pattern
 insertTextAtPattern() {
-  if test "$#" -eq 3
+  if ! [[ "$#" -eq 3 ]]
   then
+    echo "Requires 3 arguments: [Text pattern] [Text to insert] [File]"
+    return 2
+  elif ! [[ -f "$3" ]]
+  then
+    echo "Not a file: $3"
+    return 1
+  else
     local -r PATTERN="$1" TEXT="$2" FILE="$3"
     sed -i '/'"$PATTERN"'/i '"$TEXT"'' "$FILE"
     return 0
-  else
-    echo "Requires 3 arguments: [Text pattern] [Text to insert] [File]"
-    return 1
   fi
 }
 
 # Inserts text before the last line
 insertTextAtLastLine() {
-  if test "$#" -eq 2
+  if ! [[ "$#" -eq 2 ]]
   then
+    echo "Requires 2 arguments: [Text to insert] [File]"
+    return 2
+  elif ! [[ -f "$2" ]]
+  then
+    echo "Not a file: $2"
+    return 1
+  else
     local -r TEXT="$1" FILE="$2"
     sed -i '$i '"$TEXT"'' "$FILE"
     return 0
-  else
-    echo "Requires 2 arguments: [Text to insert] [File]"
-    return 1
   fi
 }
 
 # Gets the length of an array
 arrayLength() {
-  if test "$#" -eq 1
+  if ! [[ "$#" -eq 1 ]]
   then
+    echo "Requires 1 argument: [Array]"
+    return 2
+  elif ! declare -a "$1" &>/dev/null
+  then
+    echo "Not an array: $1"
+    return 1
+  else
     local -r ARR="$1"
     echo "${#ARR[@]}"
     return 0
-  else
-    echo "Requires 1 argument: [Array]"
-    return 1
   fi
 }
 
@@ -382,7 +412,9 @@ genPassword() {
   # 8: 'A-Z a-z0-9<{[|:?!#$@%+*^.~,=()/\\;]}>'
   # 9: 'A-Z a-z0-9<{[|:?!#$@%+*^.~,-()/;/=]}>'
   # # # # # # # # # # # # # # # # # # # # # # #
+  #< /dev/urandom tr -dc 'A-Z a-z0-9{[|:?!#$@%+*^.~,=()/\\;]}' | head -c"${1:-36}"; printf '\n';
   < /dev/urandom tr -dc 'A-Za-z0-9{[#$@]}' | head -c"${1:-36}"; printf '\n'
+  return 0
 }
 
 # Generates a password using OpenSSL, default length is 36.
@@ -399,14 +431,36 @@ genOpenSSLPassword() {
 
 # Gets the PATH for a script file
 getScriptPath() {
-  test "$#" -eq 1 && {
+  if [[ "$#" -eq 1 ]]
+  then
     PTH=$(type -p "$1")
     file "$PTH"
-    return 0
-  }
+  fi
 }
 
-# A log function that uses log levels for logging different outputs
+# Records the output of a command to a file.
+recordCommandOutput() {
+  if [[ "$#" -eq 1 ]]
+  then
+    local -r COMMAND="$1" LOGFILE="log.txt"
+    if test -f "$LOGFILE"
+    then
+      echo "$LOGFILE exists, appending to existing file"
+      echo "Appending new output from $COMMAND" | tee -a "$LOGFILE"
+      bash -c "$COMMAND" | tee -a "$LOGFILE"
+      return 0
+    else
+      touch "$LOGFILE"
+      bash -c "$COMMAND" | tee -a "$LOGFILE"
+      return 0
+    fi
+  else
+    echo "Requires 1 argument: [Command to record output of]"
+    return 1
+  fi
+}
+
+# A log function uses log levels for logging different outputs
 # Log levels
 # -2: Debug
 # -1: Info
@@ -414,7 +468,7 @@ getScriptPath() {
 #  1: Warning
 #  2: Error
 log() {
-  if test "$#" -gt 0
+  if [[ "$#" -gt 0 ]]
   then
     local -r LOGLEVEL="$1" TEXT="${*:2}" Z='\e[0m'
     if [[ "$LOGLEVEL" =~ [(-2)-2] ]]
