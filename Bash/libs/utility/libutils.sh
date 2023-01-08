@@ -475,7 +475,7 @@ recordCommandOutput() {
   fi
 }
 
-# A log function uses log levels for logging different outputs
+# A log function that uses log levels for logging different outputs
 # Log levels
 # -2: Debug
 # -1: Info
