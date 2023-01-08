@@ -28,7 +28,7 @@ isArray() {
     return 1
   else
     echo "Is an array: $1"
-    return 1
+    return 0
   fi
 }
 
