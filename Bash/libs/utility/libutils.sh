@@ -23,7 +23,8 @@ isRoot() {
 getTime() {
   local -r UNIX=$(date +%s)
   local -r REGULAR=$(date -d @"$UNIX") LOCALEDATE=$(date +%x) LOCALETIME=$(date +%X)
-  printf '%s\n%s\n%s\n%s\n' "Regular: $REGULAR" "Unix: $UNIX" "Locale's Date: $LOCALEDATE" "Locale's Time: $LOCALETIME"
+  printf 'Regular: %s\nUnix: %s\nLocale´s Date: %s\n Locale´s Time: %s\n' "$REGULAR" "$UNIX" "$LOCALEDATE" "$LOCALETIME"
+  return 0
 }
 
 
