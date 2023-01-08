@@ -189,8 +189,8 @@ countDirFiles() {
 findPatternInFile() {
   if ! [[ "$#" -eq 2 ]]
   then
-  	echo "Requires 2 argument: [Text pattern to find] [File to search]"
-  	return 2
+    echo "Requires 2 argument: [Text pattern to find] [File to search]"
+    return 2
   elif ! [[ -f "$2" ]]
   then
     echo "Not a file: $2"

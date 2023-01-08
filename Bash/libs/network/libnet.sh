@@ -99,7 +99,7 @@ getListeningPorts() {
   then
     grep 'LISTEN' <(lsof -i -P -n)
   else
-    grep 'LISTEN' <(sudo lsof -i -P -n)
+    sudo lsof -i -P -n | grep 'LISTEN'
   fi
 }
 
