@@ -43,7 +43,7 @@ getPublicIP() {
   local -r URLIPv4="https://ipv4.icanhazip.com" URLIPv6="https://ipv6.icanhazip.com"
   local -r IPv4=$(curl --silent --max-time 4 --ipv4 "$URLIPv4" 2>/dev/null || echo 'N/A') \
            IPv6=$(curl --silent --max-time 4 --ipv6 "$URLIPv6" 2>/dev/null || echo 'N/A')
-  printf '%s\n%s\n' "IPv4: $IPv4" "IPv6: $IPv6"
+  printf 'IPv4: %s\nIPv6: %s\n' "$IPv4" "$IPv6"
 }
 
 # Gets the local IP for the device
