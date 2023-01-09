@@ -159,24 +159,26 @@ installPKG() {
     return 1
   else
     local -r PKG="$1" OPTIONS='--quiet --assume-yes --no-show-upgraded --auto-remove=true --no-install-recommends'
-    local -r SUDOUPDATE="sudo apt-get $OPTIONS update" SUDOINSTALL="sudo apt-get $OPTIONS install" \
-             ROOTUPDATE="apt-get $OPTIONS update" ROOTINSTALL="apt-get $OPTIONS install"
+    local -r SUDOUPDATE="sudo apt-get $OPTIONS update" \
+             SUDOINSTALL="sudo apt-get $OPTIONS install" \
+             ROOTUPDATE="apt-get $OPTIONS update" \
+             ROOTINSTALL="apt-get $OPTIONS install"
     if [[ ! "$EUID" -eq 0 ]]
     then
       # Do not double-quote $SUDOUPDATE
       $SUDOUPDATE &>/dev/null
       log -1 "Installing $PKG"
       # Do not double-quote $SUDOINSTALL or $PKG
-      $SUDOINSTALL $PKG
-      log 0 "Installed $PKG"
+      DEBIAN_FRONTEND=noninteractive $SUDOINSTALL $PKG
+      log 0 "Completed"
       return 0
     else
       # Do not double-quote $ROOTUPDATE
       $ROOTUPDATE &>/dev/null
       log -1 "Installing $PKG"
       # Do not double-quote $ROOTINSTALL or $PKG
-      $ROOTINSTALL $PKG
-      log 0 "Installed $PKG"
+      DEBIAN_FRONTEND=noninteractive $ROOTINSTALL $PKG
+      log 0 "Completed"
       return 0
     fi
   fi
