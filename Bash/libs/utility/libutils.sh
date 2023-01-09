@@ -148,14 +148,14 @@ hasPKG() {
   fi
 }
 
-# Installs a single package using the package manager and pre-configured options
+# Installs package(s) using the package manager and pre-configured options
 # Return codes
 # 1: Missing package argument
 # 0: Install completed
 installPKG() {
   if [[ ! "$#" -eq 1 ]]
   then
-    log 2 "Requires 1 argument: [PKG to install]"
+    log 2 "Requires 1 argument: [PKG(s) to install]"
     return 1
   else
     local -r PKG="$1" OPTIONS='--quiet --assume-yes --no-show-upgraded --auto-remove=true --no-install-recommends'
@@ -166,51 +166,17 @@ installPKG() {
       # Do not double-quote $SUDOUPDATE
       $SUDOUPDATE &>/dev/null
       log -1 "Installing $PKG"
-      # Do not double-quote $SUDOINSTALL
-      $SUDOINSTALL "$PKG"
+      # Do not double-quote $SUDOINSTALL or $PKG
+      $SUDOINSTALL $PKG
       log 0 "Installed $PKG"
       return 0
     else
       # Do not double-quote $ROOTUPDATE
       $ROOTUPDATE &>/dev/null
       log -1 "Installing $PKG"
-      # Do not double-quote $ROOTINSTALL
-      $ROOTINSTALL "$PKG"
+      # Do not double-quote $ROOTINSTALL or $PKG
+      $ROOTINSTALL $PKG
       log 0 "Installed $PKG"
-      return 0
-    fi
-  fi
-}
-
-# Installs multiple packages using the package manager and pre-configured options
-# Return codes
-# 1: Missing package arguments
-# 0: Install completed
-installPackages() {
-  if [[ "$#" -eq 0 ]]
-  then
-    log 2 "Requires argument(s): [Package(s) to install]"
-    return 1
-  else
-  local -r PACKAGES="$*" OPTIONS='--quiet --assume-yes --no-show-upgraded --auto-remove=true --no-install-recommends'
-  local -r SUDOUPDATE="sudo apt-get $OPTIONS update" SUDOINSTALL="sudo apt-get $OPTIONS install" \
-           ROOTUPDATE="apt-get $OPTIONS update" ROOTINSTALL="apt-get $OPTIONS install"
-    if [[ ! "$EUID" -eq 0 ]]
-    then
-      # Do not double-quote $SUDOUPDATE
-      $SUDOUPDATE &>/dev/null
-      log -1 "Installing $PACKAGES"
-      # Do not double-quote $SUDOINSTALL
-      $SUDOINSTALL "$PACKAGES"
-      log 0 "Installed $PACKAGES"
-      return 0
-    else
-      # Do not double-quote $ROOTUPDATE
-      $ROOTUPDATE &>/dev/null
-      log -1 "Installing $PACKAGES"
-      # Do not double-quote $ROOTINSTALL
-      $ROOTINSTALL "$PACKAGES"
-      log 0 "Installed $PACKAGES"
       return 0
     fi
   fi
