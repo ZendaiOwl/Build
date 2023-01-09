@@ -480,15 +480,6 @@ genOpenSSLPassword() {
   fi
 }
 
-# Gets the PATH for a script file
-getScriptPath() {
-  if [[ "$#" -eq 1 ]]
-  then
-    PTH=$(type -p "$1")
-    file "$PTH"
-  fi
-}
-
 # Records the output of a command to a file.
 recordCommandOutput() {
   if [[ "$#" -eq 1 ]]
