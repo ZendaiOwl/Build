@@ -197,6 +197,34 @@ readFile() {
   fi
 }
 
+# Converts a String to uppercase
+upperCase() {
+  if [[ "$#" -gt 0 && -n "$*" ]]
+  then
+    printf '%s\n' "${*^^}"
+  else
+    log 2 "Requires argument(s): [String(s) to make lowercase]"
+  fi
+}
+
+# Converts a String to lowercase
+lowerCase() {
+  if [[ "$#" -gt 0 && -n "$*" ]]
+  then
+    printf '%s\n' "${*,,}"
+  else
+    log 2 "Requires argument(s): [String(s) to make lowercase]"
+  fi
+}
+
+# Gets the name at the end of a path string after stripping the path 
+getPathName() {
+  if [[ "$#" -eq 1 && -e "$1" ]]
+  then
+    local DPATH="$1"
+    printf '%s\n' "${DPATH##*/}"
+}
+
 # Shows the files in the current working directory's directory & all its sub-directories excluding hidden directories.
 showDirFiles() {
   if [[ "$#" -eq 0 ]]
