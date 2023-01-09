@@ -283,7 +283,7 @@ searchForPattern() {
   fi
 }
 
-# Search for a files with pattern(s) recursively
+# Search for files with pattern(s) recursively
 getFilesWithPattern() {
   if [[ "$#" -gt 0 ]]
   then
