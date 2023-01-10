@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topics</title>
+  <meta name="subtitle" content="">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="copyright" content="">
+  <meta name="author" content="">
+  <meta name="revised" content="">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="AdsBot-Google" content="noindex,nofollow">
+  <meta name="googlebot" content="noindex,nofollow">
+  <meta name="googlebot-news" content="noindex,nofollow">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+      integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"/>
+  <style></style>
+</head>
+<body>
+  <header></header>
+  <div class="container is-center">
+    <section class="section is-center"><h1 class="title">Nextcloudpi Documentation Topics</h1></section>
+  </div>
+  <div class="container" id="output"></div>
+  <footer></footer>
+  <script type="text/javascript">
+    const out = document.getElementById('output')
+    function appendData(data) {
+      for (let i = 0; i < data.length; i++) {
+        let container = document.createElement('div')
+        container.classList.add("container")
+        container.classList.add("block")
+        container.classList.add("is-center")
+        let div = document.createElement('pre')
+        let id = data[i].key
+        let title = data[i].title
+        let edit = data[i].edited
+        div.classList.add("card")
+        div.innerHTML = '<p>ID: ' + id + '</p>'
+        div.innerHTML += '<p>Title: ' + title + '</p>'
+        div.innerHTML += '<p>Edited: ' + edit + '</p>'
+        div.addEventListener("click", (index) => {
+          console.log(id)
+          location.href = `https://ncpdocs.zendai.net.eu.org/t/${id}`
+        })
+        container.appendChild(div)
+        out.appendChild(container)
+      }
+    }
+    fetch('https://ncpdocs.zendai.net.eu.org/topics')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json()
+      })
+      .then((json) => {
+        appendData(json)
+      })
+      .catch((error) => out.textContent += `Could not fetch: ${error}`);
+  </script>
+</body>
+</html>
