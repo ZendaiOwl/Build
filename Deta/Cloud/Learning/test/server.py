@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# @author Victor-ray, S. <12261439+ZendaiOwl@users.noreply.github.com>
 from sanic import Sanic
 from sanic.response import json
 from sanic.response import text
