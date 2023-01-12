@@ -35,83 +35,164 @@ class TermColour:
   def __init__(self):
     self = self
     
-  def BlackLight(self, text: str):
-    return print(f"{self.black_light + text + self.normal}")
+  def BlackLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.black_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.black_light + text + self.normal}")
     
-  def Black(self, text: str):
-    return print(f"{self.black + text + self.normal}")
+  def Black(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.black + text + self.normal} {extra}")
+    else:
+      return print(f"{self.black + text + self.normal}")
     
-  def BlackBold(self, text: str):
-    return print(f"{self.bold + self.black + text + self.normal}")
+  def BlackBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.black + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.black + text + self.normal}")
     
-  def RedLight(self, text: str):
-    return print(f"{self.red_light + text + self.normal}")
+  def RedLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.red_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.red_light + text + self.normal}")
     
-  def Red(self, text: str):
-    return print(f"{self.red + text + self.normal}")
+  def Red(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.red + text + self.normal} {extra}")
+    else:
+      return print(f"{self.red + text + self.normal}")
     
-  def RedBold(self, text: str):
-    return print(f"{self.bold + self.red + text + self.normal}")
+  def RedBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.red + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.red + text + self.normal}")
     
-  def GreenLight(self, text: str):
-    return print(f"{self.green_light + text + self.normal}")
+  def GreenLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.green_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.green_light + text + self.normal}")
     
-  def Green(self, text: str):
-    return print(f"{self.green + text + self.normal}")
+  def Green(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.green + text + self.normal} {extra}")
+    else:
+      return print(f"{self.green + text + self.normal}")
     
-  def GreenBold(self, text: str):
-    return print(f"{self.bold + self.green + text + self.normal}")
+  def GreenBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.green + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.green + text + self.normal}")
     
-  def YellowLight(self, text: str):
-    return print(f"{self.yellow_light + text + self.normal}")
+  def YellowLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.yellow_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.yellow_light + text + self.normal}")
     
-  def Yellow(self, text: str):
-    return print(f"{self.yellow + text + self.normal}")
+  def Yellow(self, text: str, extra=""):
+    if xtra != "":
+      return print(f"{self.yellow + text + self.normal} {extra}")
+    else:
+      return print(f"{self.yellow + text + self.normal}")
     
-  def YellowBold(self, text: str):
-    return print(f"{self.bold + self.yellow + text + self.normal}")
+  def YellowBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.yellow + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.yellow + text + self.normal}")
     
-  def BlueLight(self, text: str):
-    return print(f"{self.blue_light + text + self.normal}")
+  def BlueLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.blue_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.blue_light + text + self.normal}")
     
-  def Blue(self, text: str):
-    return print(f"{self.blue + text + self.normal}")
+  def Blue(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.blue + text + self.normal} {extra}")
+    else:
+      return print(f"{self.blue + text + self.normal}")
     
-  def BlueBold(self, text: str):
-    return print(f"{self.bold + self.blue + text + self.normal}")
+  def BlueBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.blue + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.blue + text + self.normal}")
     
-  def PurpleLight(self, text: str):
-    return print(f"{self.purple_light + text + self.normal}")
+  def PurpleLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.purple_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.purple_light + text + self.normal}")
     
-  def Purple(self, text: str):
-    return print(f"{self.purple + text + self.normal}")
+  def Purple(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.purple + text + self.normal} {extra}")
+    else:
+      return print(f"{self.purple + text + self.normal}")
     
-  def PurpleBold(self, text: str):
-    return print(f"{self.bold + self.purple + text + self.normal}")
+  def PurpleBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.purple + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.purple + text + self.normal}")
     
-  def CyanLight(self, text: str):
-    return print(f"{self.cyan_light + text + self.normal}")
+  def CyanLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.cyan_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.cyan_light + text + self.normal}")
     
-  def Cyan(self, text: str):
-    return print(f"{self.cyan + text + self.normal}")
+  def Cyan(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.cyan + text + self.normal} {extra}")
+    else:
+      return print(f"{self.cyan + text + self.normal}")
     
-  def CyanBold(self, text: str):
-    return print(f"{self.bold + self.cyan + text + self.normal}")
+  def CyanBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.cyan + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.cyan + text + self.normal}")
     
-  def GrayLight(self, text: str):
-    return print(f"{self.gray_light + text + self.normal}")
+  def GrayLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.gray_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.gray_light + text + self.normal}")
     
-  def Gray(self, text: str):
-    return print(f"{self.gray_light + text + self.normal}")
+  def Gray(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.gray_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.gray_light + text + self.normal}")
     
-  def GrayBold(self, text: str):
-    return print(f"{self.bold + self.gray_light + text + self.normal}")
+  def GrayBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.gray_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.gray_light + text + self.normal}")
     
-  def WhiteLight(self, text: str):
-    return print(f"{self.white_light + text + self.normal}")
+  def WhiteLight(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.white_light + text + self.normal} {extra}")
+    else:
+      return print(f"{self.white_light + text + self.normal}")
     
-  def White(self, text: str):
-    return print(f"{self.white + text + self.normal}")
+  def White(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.white + text + self.normal} {extra}")
+    else:
+      return print(f"{self.white + text + self.normal}")
     
-  def WhiteBold(self, text: str):
-    return print(f"{self.bold + self.white + text + self.normal}")
+  def WhiteBold(self, text: str, extra=""):
+    if extra != "":
+      return print(f"{self.bold + self.white + text + self.normal} {extra}")
+    else:
+      return print(f"{self.bold + self.white + text + self.normal}")
