@@ -6,8 +6,11 @@ const router = express.Router()
 const app = express()
 const deta = Deta()
 const db = deta.Base('ncp_docs')
+const topics = deta.Base('topics')
 const NCPDOCS = "https://help.nextcloud.com/c/ncpdocs/178.json"
 const NCPDOCBASE = "https://help.nextcloud.com/t/"
+const NEWTOPICS = "https://help.nextcloud.com/new.json"
+const NEWTOPICSPAGE = "https://help.nextcloud.com/new.json?page="
 const key = "topics"
 const docs_key = "docs"
 
@@ -33,8 +36,8 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/topics', async (req, res) => {
-  const topics = await db.get(key)
-  const content = topics['content']
+  const topics = await db.fetch()
+  const content = topics['items']
   res.send(content)
 })
 
@@ -45,31 +48,31 @@ app.get('/t/:id', async (req, res) => {
   res.send(htm)
 })
 
-app.get('/fetch/topics', async (req, res) => {
-  const json = await fetch(NCPDOCS).then(res => res.json())
-  const topics = json['topic_list']['topics']
-  const allTopics = []
-  topics.forEach(topic => {
-    let id = topic['id']
-    let title = topic['title']
-    let edited = topic['bumped_at']
-    let obj = {
-      key: id,
-      title: title,
-      edited: edited
-    }
-    allTopics.push(obj)
-  })
-  const saved = await db.putMany([{key: key, content: allTopics}])
-  res.send(saved)
-})
+//app.get('/fetch/topics', async (req, res) => {
+//  const json = await fetch(NCPDOCS).then(res => res.json())
+//  const topics = json['topic_list']['topics']
+//  const allTopics = []
+//  topics.forEach(topic => {
+//    let id = topic['id']
+//    let title = topic['title']
+//    let edited = topic['bumped_at']
+//    let obj = {
+//      key: id,
+//      title: title,
+//      edited: edited
+//    }
+//    allTopics.push(obj)
+//  })
+//  const saved = await topics.putMany([{key: key, content: allTopics}])
+//  res.send(saved)
+//})
 
-app.get('/get/:doc_id', async (req, res) => {
+app.get('/fetch/:doc_id', async (req, res) => {
   doc_id = req.params['doc_id']
   const doc = await fetchDoc(doc_id)
   const title = doc['title']
-  const html = doc['post_stream']['posts'][0]['cooked']
-  const output = ('<!DOCTYPE html><html lang="en"> \
+  const content = doc['post_stream']['posts'][0]['cooked']
+  const html = ('<!DOCTYPE html><html lang="en"> \
                    <head> \
                      <meta charset="UTF-8"> \
                      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> \
@@ -77,10 +80,9 @@ app.get('/get/:doc_id', async (req, res) => {
                      <title>'+title+'</title> \
                      <meta name="robots" content="noindex,nofollow"> \
                      <link rel="icon" href="data:,"> \
-                     </head><body><h1>' + title + '</h1><br>' + html + '</body></html>')
-  const save = await saveDoc(doc_id, doc, output)
-  res.send(output)
-
+                     </head><body><h1>' + title + '</h1><br>' + content + '</body></html>')
+  const save = await saveDoc(doc_id, doc, html)
+  res.send(html)
 })
 
 app.get('*', async (req, res) => {

@@ -26,7 +26,7 @@
 <body>
   <header></header>
   <div class="container is-center">
-    <section class="section is-center"><h1 class="title">Nextcloudpi Documentation Topics</h1></section>
+    <section class="section is-center"><h1 class="title">Topics</h1></section>
   </div>
   <div class="container" id="output"></div>
   <footer></footer>
@@ -40,8 +40,8 @@
         container.classList.add("is-center")
         let div = document.createElement('pre')
         let id = data[i].key
-        let title = data[i].title
-        let edit = data[i].edited
+        let title = data[i].content.title
+        let edit = data[i].content.last_posted_at
         div.classList.add("card")
         div.innerHTML = '<p>ID: ' + id + '</p>'
         div.innerHTML += '<p>Title: ' + title + '</p>'
